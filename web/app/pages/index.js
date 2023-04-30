@@ -1,8 +1,15 @@
-import { greet } from "stats"
+// https://github.com/vercel/next.js/issues/25852
+const Greet = dynamic({
+  loader: async () => {
+    const mod = await import("stats")
+    return (_) => <div>{mod.greet()}</div>
+  },
+  ssr: false
+})
 import { Inter } from 'next/font/google'
 // https://github.com/plotly/react-plotly.js/issues/272
 import dynamic from "next/dynamic";
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
+const Plot = dynamic(() => import("react-plotly.js"), { ssr: false })
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +30,7 @@ export default function Home() {
         </div>
         <div className="column">
           <button className="button">
-            {greet()}
+            <Greet />
           </button>
           <Plot
             data={[
