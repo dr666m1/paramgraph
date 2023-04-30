@@ -5,6 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "setup": "zx ./scripts/setup.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +20,8 @@
   },
   "homepage": "https://github.com/dr666m1/paramgraph#readme",
   "devDependencies": {
-    "aws-cdk": "2.77.0"
+    "aws-cdk": "2.77.0",
+    "zx": "^7.2.1"
   },
   "workspaces": [
     "deployments"
