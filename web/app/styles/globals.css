@@ -1,3 +1,2 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* https://www.npmjs.com/package/bulma */
+@import "bulma/css/bulma.css"
