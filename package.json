@@ -24,6 +24,8 @@
     "zx": "^7.2.1"
   },
   "workspaces": [
-    "deployments"
+    "deployments",
+    "web/stats/pkg",
+    "web/app"
   ]
 }
