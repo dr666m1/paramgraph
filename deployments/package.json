@@ -1,0 +1,16 @@
+{
+  "name": "deployments",
+  "version": "0.1.0",
+  "bin": {
+    "deployments": "bin/index.js"
+  },
+  "scripts": {
+    "build": "echo \"The build step is not required when using JavaScript!\" && exit 0",
+    "cdk": "cdk",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.77.0",
+    "constructs": "^10.0.0"
+  }
+}

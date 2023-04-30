@@ -18,7 +18,10 @@
     "url": "https://github.com/dr666m1/paramgraph/issues"
   },
   "homepage": "https://github.com/dr666m1/paramgraph#readme",
+  "devDependencies": {
+    "aws-cdk": "2.77.0"
+  },
   "workspaces": [
-    "cdk"
+    "deployments"
   ]
 }
