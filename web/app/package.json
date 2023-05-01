@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "next dev",
-    "build": "next build"
+    "build": "zx ./scripts/license.mjs"
   },
   "dependencies": {
     "bulma": "^0.9.4",
