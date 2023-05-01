@@ -1,15 +1,20 @@
+import Spinner from "../components/Spinner"
 // https://github.com/vercel/next.js/issues/25852
 const Greet = dynamic({
   loader: async () => {
     const mod = await import("stats")
     return (_) => <div>{mod.greet()}</div>
   },
-  ssr: false
+  ssr: false,
+  loading: () => <Spinner />,
 })
 import { Inter } from 'next/font/google'
 // https://github.com/plotly/react-plotly.js/issues/272
 import dynamic from "next/dynamic";
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false })
+const Plot = dynamic(() => import("react-plotly.js"), {
+  ssr: false,
+  loading: () => <Spinner />,
+})
 
 const inter = Inter({ subsets: ['latin'] })
 
