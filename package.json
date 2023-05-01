@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "setup": "zx ./scripts/setup.mjs",
-    "build": "cd ./web/stats && wasm-pack build --target bundler",
+    "build": "cd ./web/stats && wasm-pack build --target bundler && cd - && npm run build -w web/app",
+    "serve": "npm run serve -w web/app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
