@@ -1,4 +1,6 @@
+import dynamic from "next/dynamic";
 import Spinner from "../components/Spinner"
+import Chart from "../components/Chart"
 // https://github.com/vercel/next.js/issues/25852
 const Greet = dynamic({
   loader: async () => {
@@ -8,13 +10,6 @@ const Greet = dynamic({
   ssr: false,
   loading: () => <Spinner />,
 })
-// https://github.com/plotly/react-plotly.js/issues/272
-import dynamic from "next/dynamic";
-const Plot = dynamic(() => import("react-plotly.js"), {
-  ssr: false,
-  loading: () => <Spinner />,
-})
-
 
 export default function Home() {
   return (
@@ -31,19 +26,7 @@ export default function Home() {
         <button className="button">
           <Greet />
         </button>
-        <Plot
-          data={[
-            {
-              x: [1, 2, 3],
-              y: [2, 6, 3],
-              type: 'scatter',
-              mode: 'lines+markers',
-              marker: { color: 'red' },
-            },
-            { type: 'bar', x: [1, 2, 3], y: [2, 5, 3] },
-          ]}
-          layout={{ width: 320, height: 240, title: 'A Fancy Plot' }}
-        />
+        <Chart />
       </div>
     </div >
   )
