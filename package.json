@@ -23,6 +23,7 @@
   "homepage": "https://github.com/dr666m1/paramgraph#readme",
   "devDependencies": {
     "aws-cdk": "2.77.0",
+    "webpack-license-plugin": "^4.2.2",
     "zx": "^7.2.1"
   },
   "workspaces": [
