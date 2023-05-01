@@ -1,7 +1,5 @@
-import Spinner from "react-spinners/BeatLoader"
-
 const Component = () => {
-  return <Spinner />
+  return <progress className="progress" max="100">0%</progress>
 }
 
 export default Component
