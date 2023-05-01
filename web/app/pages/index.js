@@ -14,6 +14,12 @@ const Greet = dynamic({
 export default function Home() {
   return (
     <div className="columns">
+      <div className="column">
+        <button className="button">
+          <Greet />
+        </button>
+        <Chart />
+      </div>
       <div className="column is-one-fifth">
         <div className="box">
           first column
@@ -21,12 +27,6 @@ export default function Home() {
         <div className="box">
           first column
         </div>
-      </div>
-      <div className="column">
-        <button className="button">
-          <Greet />
-        </button>
-        <Chart />
       </div>
     </div >
   )

@@ -15,6 +15,7 @@ export default function Component() {
         y: [2, 6, 3],
       },
     ]}
-    layout={{ width: 320, height: 240, title: 'A Fancy Plot' }}
+    layout={{ title: 'A Fancy Plot', width: 800, height: 800 }}
+    config={{ responsive: true, scrollZoom: true }}
   />
 }
