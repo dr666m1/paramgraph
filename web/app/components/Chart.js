@@ -14,8 +14,12 @@ ChartJS.register(
 );
 
 export const options = {
-  // aspectRatio: 1,
   responsive: true,
+  elements: {
+    point: {
+      radius: 0
+    }
+  }
 };
 
 export default function Component({ datasets }) {

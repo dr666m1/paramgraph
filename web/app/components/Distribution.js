@@ -7,29 +7,31 @@ export const defaultDistName = "unspecified"
 export default function Component({ idx, setter }) {
   const [distribution, setDistribution] = useState(defaultDistName)
 
-  const update = () => {
-    setter(arr => {
-      const temp = [...arr]
-      temp[idx] = { label: "normal", showLine: true, data: [{ x: 0, y: 1 }, { x: 1, y: 2 }] }
-      return temp
-    })
-    setDistribution("normal")
-  }
-
   // https://github.com/vercel/next.js/issues/25852
   const Stats = dynamic({
     loader: async () => {
       const mod = await import("stats")
-      return (_) => <div>
-        {distribution}
-      </div>
+      return (_) => (
+        <div className="box" onClick={() => {
+          setter(arr => {
+            const temp = [...arr]
+            temp[idx] = {
+              label: "normal",
+              showLine: true,
+              data: mod.normal(-3, 3, 0, 1),
+            }
+            return temp
+          })
+          setDistribution("normal")
+        }}>
+          {distribution}
+        </div>
+      )
     },
     ssr: false,
   })
 
-  return (
-    <div className="box" onClick={update}>
-      <Stats />
-    </div>
-  )
+  return <>
+    <Stats />
+  </>
 }
