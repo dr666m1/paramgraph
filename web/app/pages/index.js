@@ -3,7 +3,16 @@ import Chart from "../components/Chart"
 import Distribution from "../components/Distribution"
 
 const initDatasets = [
-  { label: "sample data", data: [12, 19, 3, 5, 2, 3] }
+  {
+    label: "sample data", showLine: true, data: [
+      { x: 0, y: 12 },
+      { x: 1, y: 19 },
+      { x: 2, y: 3 },
+      { x: 3, y: 5 },
+      { x: 4, y: 2 },
+      { x: 5, y: 3 },
+    ]
+  }
 ]
 
 export default function Home() {
