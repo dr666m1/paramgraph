@@ -16,11 +16,15 @@ export default function Home() {
       </div>
       <div className="column is-one-fifth">
         {/* using idx as key is not recommended but I preferred simplicity */}
-        {datasets.map((d, idx) => <Distribution key={idx} idx={idx} setter={setDatasets} />)}
+        {datasets.map(
+          (d, idx) => <Distribution key={idx} idx={idx} setter={setDatasets} />
+        )}
         <button
           className="button is-primary"
-          onClick={() => setDatasets([...datasets, defaultDataset])}
-        >add distribution</button>
+          onClick={() => setDatasets(d => [...d, defaultDataset])}
+        >
+          add distribution
+        </button>
       </div>
     </div >
   )

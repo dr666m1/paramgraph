@@ -18,7 +18,8 @@ export default function Component({ idx, setter }) {
             temp[idx] = {
               label: "normal",
               showLine: true,
-              data: mod.normal(-3, 3, 0, 1),
+              data: mod.normal(-3, 3, 0, idx + 1),
+              idx
             }
             return temp
           })
