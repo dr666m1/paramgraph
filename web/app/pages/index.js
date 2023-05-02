@@ -2,21 +2,12 @@ import { useState } from "react"
 import Chart from "../components/Chart"
 import Distribution from "../components/Distribution"
 
-const initDatasets = [
-  {
-    label: "sample data", showLine: true, data: [
-      { x: 0, y: 12 },
-      { x: 1, y: 19 },
-      { x: 2, y: 3 },
-      { x: 3, y: 5 },
-      { x: 4, y: 2 },
-      { x: 5, y: 3 },
-    ]
-  }
+const defaultDataset = [
+  { label: "select distribution", showLine: true, data: [] }
 ]
 
 export default function Home() {
-  const [datasets, setDatasets] = useState(initDatasets)
+  const [datasets, setDatasets] = useState([defaultDataset])
 
   return (
     <div className="columns">
@@ -24,7 +15,12 @@ export default function Home() {
         <Chart datasets={datasets} />
       </div>
       <div className="column is-one-fifth">
-        <Distribution />
+        {/* using idx as key is not recommended but I preferred simplicity */}
+        {datasets.map((d, idx) => <Distribution key={idx} idx={idx} />)}
+        <button
+          className="button is-primary"
+          onClick={() => setDatasets([...datasets, defaultDataset])}
+        >add distribution</button>
       </div>
     </div >
   )
