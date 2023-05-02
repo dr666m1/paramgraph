@@ -1,9 +1,9 @@
 import { useState } from "react"
 import Chart from "../components/Chart"
-import Distribution from "../components/Distribution"
+import Distribution, { defaultDistName } from "../components/Distribution"
 
 const defaultDataset = [
-  { label: "select distribution", showLine: true, data: [] }
+  { label: defaultDistName, showLine: true, data: [] }
 ]
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
       </div>
       <div className="column is-one-fifth">
         {/* using idx as key is not recommended but I preferred simplicity */}
-        {datasets.map((d, idx) => <Distribution key={idx} idx={idx} />)}
+        {datasets.map((d, idx) => <Distribution key={idx} idx={idx} setter={setDatasets} />)}
         <button
           className="button is-primary"
           onClick={() => setDatasets([...datasets, defaultDataset])}
