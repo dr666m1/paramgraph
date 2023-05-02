@@ -1,21 +1,39 @@
-import Spinner from "../components/Spinner"
-import dynamic from "next/dynamic";
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
-// https://github.com/plotly/react-plotly.js/issues/272
-const Plot = dynamic(() => import("react-plotly.js"), {
-  ssr: false,
-  loading: () => <Spinner />,
-})
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const data = {
+  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  datasets: [{
+    label: '# of Votes',
+    data: [12, 19, 3, 5, 2, 3],
+    borderWidth: 1,
+    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  }]
+};
+
+export const options = {
+  // aspectRatio: 1,
+  responsive: true,
+};
 
 export default function Component() {
-  return <Plot
-    data={[
-      {
-        x: [1, 2, 3],
-        y: [2, 6, 3],
-      },
-    ]}
-    layout={{ title: 'A Fancy Plot', width: 800, height: 800 }}
-    config={{ responsive: true, scrollZoom: true }}
-  />
+  return <Bar options={options} data={data} />;
 }
