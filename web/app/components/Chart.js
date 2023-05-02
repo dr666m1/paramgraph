@@ -20,13 +20,7 @@ ChartJS.register(
 );
 
 export const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  datasets: [{
-    label: '# of Votes',
-    data: [12, 19, 3, 5, 2, 3],
-    borderWidth: 1,
-    backgroundColor: 'rgba(255, 99, 132, 0.5)',
-  }]
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 };
 
 export const options = {
@@ -34,6 +28,6 @@ export const options = {
   responsive: true,
 };
 
-export default function Component() {
-  return <Bar options={options} data={data} />;
+export default function Component({ datasets }) {
+  return <Bar options={options} data={{ ...data, datasets }} />;
 }

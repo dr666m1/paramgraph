@@ -1,32 +1,21 @@
-import dynamic from "next/dynamic";
-import Spinner from "../components/Spinner"
+import { useState } from "react"
 import Chart from "../components/Chart"
-// https://github.com/vercel/next.js/issues/25852
-const Greet = dynamic({
-  loader: async () => {
-    const mod = await import("stats")
-    return (_) => <div>{mod.greet()}</div>
-  },
-  ssr: false,
-  loading: () => <Spinner />,
-})
+import Distribution from "../components/Distribution"
+
+const initDatasets = [
+  { label: "sample data", data: [12, 19, 3, 5, 2, 3] }
+]
 
 export default function Home() {
+  const [datasets, setDatasets] = useState(initDatasets)
+
   return (
     <div className="columns">
       <div className="column">
-        <button className="button">
-          <Greet />
-        </button>
-        <Chart />
+        <Chart datasets={datasets} />
       </div>
       <div className="column is-one-fifth">
-        <div className="box">
-          first column
-        </div>
-        <div className="box">
-          first column
-        </div>
+        <Distribution />
       </div>
     </div >
   )
