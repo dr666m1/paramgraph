@@ -1,0 +1,20 @@
+{
+  "name": "stats",
+  "collaborators": [
+    "dr666m1 <skndr666m1@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "license": "MIT",
+  "files": [
+    "stats_bg.wasm",
+    "stats.js",
+    "stats_bg.js",
+    "stats.d.ts"
+  ],
+  "module": "stats.js",
+  "types": "stats.d.ts",
+  "sideEffects": [
+    "./stats.js",
+    "./snippets/*"
+  ]
+}
