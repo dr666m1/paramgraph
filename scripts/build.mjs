@@ -4,6 +4,7 @@ cd("./web/stats")
 
 await $`wasm-pack build --target bundler`;
 
+await $`cargo install cargo-bundle-licenses`
 const args = [
   "--format",
   "json",
