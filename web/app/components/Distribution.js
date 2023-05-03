@@ -1,12 +1,10 @@
 import { useState } from "react"
 import dynamic from "next/dynamic";
-import Spinner from "../components/Spinner"
 import { normal } from "stats"
-
-export const defaultDistName = "unspecified"
+import { defaultDistribution } from "../src/constants"
 
 export default function Component({ idx, setter }) {
-  const [distribution, setDistribution] = useState(defaultDistName)
+  const [distribution, setDistribution] = useState(defaultDistribution.name)
 
   return <div className="box" onClick={() => {
     setter(arr => {

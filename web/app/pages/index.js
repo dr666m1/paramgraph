@@ -1,9 +1,10 @@
 import { useState } from "react"
 import Chart from "../components/Chart"
-import Distribution, { defaultDistName } from "../components/Distribution"
+import Distribution from "../components/Distribution"
+import { defaultDistribution } from "../src/constants"
 
 const defaultDataset = [
-  { label: defaultDistName, showLine: true, data: [] }
+  { label: defaultDistribution.name, showLine: true, data: [] }
 ]
 
 export default function Home() {
