@@ -3,12 +3,14 @@ import Chart from "../components/Chart"
 import Distribution from "../components/Distribution"
 import { defaultDistribution } from "../src/constants"
 
-const defaultDataset = [
-  { label: defaultDistribution.name, showLine: true, data: [] }
-]
+const defaultDataset = (idx) => {
+  return {
+    label: defaultDistribution.name, showLine: true, data: [], idx
+  }
+}
 
 export default function Home() {
-  const [datasets, setDatasets] = useState([defaultDataset])
+  const [datasets, setDatasets] = useState([defaultDataset(0)])
 
   return (
     <div className="columns">
@@ -22,7 +24,7 @@ export default function Home() {
         )}
         <button
           className="button is-primary"
-          onClick={() => setDatasets(d => [...d, defaultDataset])}
+          onClick={() => setDatasets(d => [...d, defaultDataset(datasets.length)])}
         >
           add distribution
         </button>
