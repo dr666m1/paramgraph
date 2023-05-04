@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { normal } from "stats"
 import { defaultDistribution } from "../src/constants"
 import Dropdown from "../components/Dropdown"
+import Input from "../components/Input"
 
 export default function Component({ idx, setter }) {
   const [distribution, setDistribution] = useState(defaultDistribution.name)
@@ -21,5 +22,9 @@ export default function Component({ idx, setter }) {
     </div>
     <label className="label">distribution</label>
     <Dropdown setter={setter} idx={idx} />
+    <label className="label">μ</label>
+    <Input />
+    <label className="label">σ</label>
+    <Input />
   </div>
 }
