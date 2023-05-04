@@ -41,10 +41,12 @@ export default function Component({
         newParams,
       )
     }
+    const label = distributions.filter(d => d.name === dist)[0].display(newParams)
     setter(arr => {
       const temp = [...arr]
       temp[idx] = {
         ...arr[idx],
+        label,
         data,
       }
       return temp

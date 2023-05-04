@@ -1,11 +1,12 @@
 import { normal } from "stats"
 
-export const defaultDistribution = { name: "unspecified", parameters: [] }
+export const defaultDistribution = { name: "unspecified", display: ({ }) => "unspecified", parameters: [] }
 
 export const distributions = [
   defaultDistribution,
   {
     name: "N(μ, σ)",
+    display: ({ μ, σ }) => `N(${μ}, ${σ})`,
     parameters: [
       { "key": "μ", "value": 0 },
       { "key": "σ", "value": 1 },
