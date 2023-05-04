@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { normal } from "stats"
-import { defaultDistribution, distributions, myNormal } from "../src/constants"
+import { useState } from "react";
+import { normal } from "stats";
+import { defaultDistribution, distributions, myNormal } from "../src/constants";
 
 export default function Component({
   setter,
@@ -9,51 +9,49 @@ export default function Component({
   dist,
   params,
   param,
-  paramSetter
+  paramSetter,
 }) {
-  const [inp, setInp] = useState("")
+  const [inp, setInp] = useState("");
 
-  const update = e => {
-    const str = e.target.value
-    setInp(str)
+  const update = (e) => {
+    const str = e.target.value;
+    setInp(str);
     if (str.match(/^\s*$/)) {
-      return
+      return;
     }
-    let num
+    let num;
     try {
-      num = Number(str)
+      num = Number(str);
     } catch {
-      return
+      return;
     }
-    let newParams = {}
+    let newParams = {};
     for (const [k, v] of Object.entries(params)) {
-      newParams[k] = v
+      newParams[k] = v;
     }
-    newParams[param] = num
-    paramSetter(newParams)
-    let data
+    newParams[param] = num;
+    paramSetter(newParams);
+    let data;
     if (dist === defaultDistribution.name) {
-      data = []
+      data = [];
     } else {
-      data = myNormal(
-        -3,
-        3,
-        newParams,
-      )
+      data = myNormal(-3, 3, newParams);
     }
-    const label = distributions.filter(d => d.name === dist)[0].display(newParams)
-    setter(arr => {
-      const temp = [...arr]
+    const label = distributions
+      .filter((d) => d.name === dist)[0]
+      .display(newParams);
+    setter((arr) => {
+      const temp = [...arr];
       temp[idx] = {
         ...arr[idx],
         label,
         data,
-      }
-      return temp
-    })
-  }
+      };
+      return temp;
+    });
+  };
 
-  return <>
+  return (
     <input
       className="input is-small"
       type="text"
@@ -61,5 +59,5 @@ export default function Component({
       value={inp}
       onChange={update}
     ></input>
-  </>
+  );
 }

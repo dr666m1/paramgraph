@@ -1,18 +1,18 @@
-const LicensePlugin = require("webpack-license-plugin")
+const LicensePlugin = require("webpack-license-plugin");
 
 const myConfig = (config, { isServer, dev }) => {
-  config.plugins.push(new LicensePlugin())
-}
+  config.plugins.push(new LicensePlugin());
+};
 
 // https://github.com/vercel/next.js/issues/29362
 const wasmConfig = (config, { isServer, dev }) => {
-  config.experiments.asyncWebAssembly = true
-  config.experiments.layers = true
+  config.experiments.asyncWebAssembly = true;
+  config.experiments.layers = true;
   if (!dev && isServer) {
     config.output.webassemblyModuleFilename = "chunks/[id].wasm";
     config.plugins.push(new WasmChunksFixPlugin());
   }
-}
+};
 class WasmChunksFixPlugin {
   apply(compiler) {
     compiler.hooks.thisCompilation.tap("WasmChunksFixPlugin", (compilation) => {
@@ -36,10 +36,10 @@ const nextConfig = {
   reactStrictMode: true,
   output: "export",
   webpack: (config, { isServer, dev }) => {
-    myConfig(config, { isServer, dev })
-    wasmConfig(config, { isServer, dev })
-    return config
+    myConfig(config, { isServer, dev });
+    wasmConfig(config, { isServer, dev });
+    return config;
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

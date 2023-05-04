@@ -1,4 +1,4 @@
-import { Scatter } from 'react-chartjs-2';
+import { Scatter } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   LinearScale,
@@ -6,34 +6,27 @@ import {
   PointElement,
   Colors,
   Legend,
-} from 'chart.js';
+} from "chart.js";
 
-
-ChartJS.register(
-  LinearScale,
-  LineElement,
-  PointElement,
-  Colors,
-  Legend,
-);
+ChartJS.register(LinearScale, LineElement, PointElement, Colors, Legend);
 
 export const options = {
   responsive: true,
   plugins: {
     colors: {
       // https://www.chartjs.org/docs/latest/general/colors.html#dynamic-datasets-at-runtime
-      forceOverride: true
-    }
+      forceOverride: true,
+    },
   },
   elements: {
     point: {
-      radius: 0
-    }
+      radius: 0,
+    },
   },
   scales: {
     y: {
-      beginAtZero: true
-    }
+      beginAtZero: true,
+    },
   },
 };
 
