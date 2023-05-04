@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Chart from "../components/Chart"
 import Distribution from "../components/Distribution"
 import { defaultDistribution } from "../src/constants"
@@ -11,13 +11,23 @@ const defaultDataset = (idx) => {
 
 export default function Home() {
   const [datasets, setDatasets] = useState([defaultDataset(0)])
+  useEffect(() => {
+    const height = document.getElementById("chart").offsetHeight
+    document.getElementById("right-column").style.maxHeight = `${height}px`
+  })
 
   return (
     <div className="columns">
       <div className="column">
-        <Chart datasets={datasets.filter(d => typeof d !== "undefined")} />
+        <div id="chart">
+          <Chart datasets={datasets.filter(d => typeof d !== "undefined")} />
+        </div>
       </div>
-      <div className="column is-one-fifth">
+      <div
+        id="right-column"
+        className="column is-one-fifth"
+        style={{ overflow: "auto" }}
+      >
         {/* using idx as key is not recommended but I preferred simplicity */}
         {datasets.map(
           (d, idx) => {
