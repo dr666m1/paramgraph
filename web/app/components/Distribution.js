@@ -1,12 +1,16 @@
 import { useState } from "react"
 import dynamic from "next/dynamic";
-import { normal } from "stats"
-import { defaultDistribution, distributions } from "../src/constants"
+import { defaultDistribution, distributions, arr2obj, obj2arr } from "../src/constants"
 import Dropdown from "../components/Dropdown"
 import Input from "../components/Input"
 
 export default function Component({ idx, setter }) {
   const [distribution, setDistribution] = useState(defaultDistribution.name)
+  const tempParams = {} // array -> object
+  for (const p of defaultDistribution.parameters) {
+    tempParams[p.key] = p.value
+  }
+  const [params, setParams] = useState(tempParams)
 
   const del = () => {
     setter(arr => {
@@ -21,9 +25,9 @@ export default function Component({ idx, setter }) {
       <button className="delete is-small" onClick={del}></button>
     </div>
     <label className="label">distribution</label>
-    <Dropdown setter={setter} idx={idx} distSetter={setDistribution} />
+    <Dropdown setter={setter} idx={idx} distSetter={setDistribution} paramSetter={setParams} />
     {
-      distributions.filter(d => d.name === distribution)[0].parameters
+      obj2arr(params)
         .map((p, _, ps) => <div key={p.key}>
           <label className="label">{p.key}</label>
           <Input
@@ -31,8 +35,9 @@ export default function Component({ idx, setter }) {
             setter={setter}
             idx={idx}
             dist={distribution}
-            params={ps}
+            params={arr2obj(ps)}
             param={p.key}
+            paramSetter={setParams}
           />
         </div>)
     }

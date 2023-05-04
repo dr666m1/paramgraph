@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { normal } from "stats"
 
-import { defaultDistribution, distributions } from "../src/constants"
+import { defaultDistribution, distributions, arr2obj } from "../src/constants"
 
-export default function Component({ setter, idx, distSetter }) {
+export default function Component({ setter, idx, distSetter, paramSetter }) {
   const [selected, setSelected] = useState(defaultDistribution.name)
 
   const update = (e) => {
@@ -31,6 +31,8 @@ export default function Component({ setter, idx, distSetter }) {
       return temp
     })
     distSetter(distName)
+    const dist = distributions.filter(d => d.name === distName)[0]
+    paramSetter(arr2obj(dist.parameters))
   }
 
   return <div className="select">

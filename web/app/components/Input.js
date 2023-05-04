@@ -2,23 +2,26 @@ import { useState } from "react"
 import { normal } from "stats"
 import { defaultDistribution, distributions, myNormal } from "../src/constants"
 
-export default function Component({ setter, placeholder, idx, dist, params, param }) {
+export default function Component({
+  setter,
+  placeholder,
+  idx,
+  dist,
+  params,
+  param,
+  paramSetter
+}) {
   const [inp, setInp] = useState("")
-  const tempParams = {} // array -> object
-  for (const p of params) {
-    tempParams[p.key] = p.value
-  }
-  const [ps, setPs] = useState(tempParams)
 
   const update = e => {
     const str = e.target.value
     setInp(str)
     let newParams = {}
-    for (const [k, v] of Object.entries(ps)) {
+    for (const [k, v] of Object.entries(params)) {
       newParams[k] = v
     }
     newParams[param] = Number(str)
-    setPs(newParams)
+    paramSetter(newParams)
 
     let data
     if (dist === defaultDistribution.name) {
