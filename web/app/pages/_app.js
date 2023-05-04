@@ -10,6 +10,7 @@ export default function App({ Component, pageProps }) {
       <nav className="navbar">
         <div className="navbar-brand">param-graph</div>
       </nav>
+      <div className="is-divider"></div>
       <Component {...pageProps} />
       <footer className="footer">
         <strong>paramgraph</strong> by dr666m1
