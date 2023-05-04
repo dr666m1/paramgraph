@@ -29,7 +29,12 @@ export const options = {
     point: {
       radius: 0
     }
-  }
+  },
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  },
 };
 
 export default function Component({ datasets }) {
