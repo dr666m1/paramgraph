@@ -31,7 +31,12 @@ export default function Component({ idx, setter }) {
         .map((p, _, ps) => <div key={p.key}>
           <label className="label">{p.key}</label>
           <Input
-            placeholder={p.value}
+            placeholder={
+              distributions
+                .filter(d => d.name === distribution)[0]
+                .parameters.filter(param => param.key === p.key)[0]
+                .value
+            }
             setter={setter}
             idx={idx}
             dist={distribution}

@@ -22,7 +22,6 @@ export default function Component({
     }
     newParams[param] = Number(str)
     paramSetter(newParams)
-
     let data
     if (dist === defaultDistribution.name) {
       data = []
