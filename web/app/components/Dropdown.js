@@ -3,7 +3,7 @@ import { normal } from "stats"
 
 import { defaultDistribution, distributions } from "../src/constants"
 
-export default function Component({ setter, idx }) {
+export default function Component({ setter, idx, distSetter }) {
   const [selected, setSelected] = useState(defaultDistribution.name)
 
   const update = (e) => {
@@ -14,7 +14,6 @@ export default function Component({ setter, idx }) {
     if (distName === defaultDistribution.name) {
       data = []
     } else {
-      const dist = distributions.filter(d => d.name === distName)[0]
       data = normal(
         -3,
         3,
@@ -31,6 +30,7 @@ export default function Component({ setter, idx }) {
       }
       return temp
     })
+    distSetter(distName)
   }
 
   return <div className="select">
