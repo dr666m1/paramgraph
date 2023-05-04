@@ -1,8 +1,8 @@
 // globals.css must be imported here!
-import '@/styles/globals.css'
-import { Inter } from 'next/font/google'
+import "@/styles/globals.css";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }) {
   return (
@@ -16,5 +16,5 @@ export default function App({ Component, pageProps }) {
         <strong>paramgraph</strong> by dr666m1
       </footer>
     </div>
-  )
+  );
 }

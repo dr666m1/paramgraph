@@ -7,7 +7,7 @@
   "scripts": {
     "build": "zx ./scripts/build.mjs && npm run build -w web/app",
     "serve": "npm run serve -w web/app # if you see some errors, see https://github.com/vercel/next.js/issues/47121",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "prettier --check ."
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/dr666m1/paramgraph#readme",
   "devDependencies": {
     "aws-cdk": "2.77.0",
+    "prettier": "^2.8.8",
     "webpack-license-plugin": "^4.2.2",
     "zx": "^7.2.1"
   },

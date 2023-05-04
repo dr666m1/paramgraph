@@ -1,27 +1,27 @@
 #!/usr/bin/env zx
-import fs from "fs"
+import fs from "fs";
 
-const result = "./.next/oss-licenses.json"
-const source = "./public/notices-js.json"
+const result = "./.next/oss-licenses.json";
+const source = "./public/notices-js.json";
 
 const retry = async () => {
-  echo`license changes are detected! building again...`
-  await $`cp ${result} ${source}`
-  await $`npx next build`
-}
+  echo`license changes are detected! building again...`;
+  await $`cp ${result} ${source}`;
+  await $`npx next build`;
+};
 const read = (file) => {
-  return fs.readFileSync(file).toString()
-}
+  return fs.readFileSync(file).toString();
+};
 
-await $`npx next build`
+await $`npx next build`;
 
-let shouldRetry = false
+let shouldRetry = false;
 try {
-  shouldRetry = read(result) !== read(source)
+  shouldRetry = read(result) !== read(source);
 } catch {
-  shouldRetry = true
+  shouldRetry = true;
 }
 
 if (shouldRetry) {
-  await retry()
+  await retry();
 }
