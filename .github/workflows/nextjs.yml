@@ -1,8 +1,7 @@
 # https://github.com/actions/starter-workflows/blob/main/pages/nextjs.yml
 on:
   push:
-    # TODO remove feature-github-pages
-    branches: ["main", "feature-github-pages"]
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -23,6 +22,7 @@ jobs:
           node-version: "16"
           cache: npm
       - uses: actions/configure-pages@v3
+        # TODO should I configure generator_config_file?
         with:
           static_site_generator: next
       - uses: actions/cache@v3
