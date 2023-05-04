@@ -1,3 +1,5 @@
+import { normal } from "stats"
+
 export const defaultDistribution = { name: "unspecified", parameters: [] }
 
 export const distributions = [
@@ -10,3 +12,7 @@ export const distributions = [
     ],
   },
 ]
+
+export function myNormal(from, to, { μ, σ }) {
+  return normal(from, to, μ, σ)
+}

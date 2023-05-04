@@ -24,9 +24,16 @@ export default function Component({ idx, setter }) {
     <Dropdown setter={setter} idx={idx} distSetter={setDistribution} />
     {
       distributions.filter(d => d.name === distribution)[0].parameters
-        .map(p => <div key={p.key}>
+        .map((p, _, ps) => <div key={p.key}>
           <label className="label">{p.key}</label>
-          <Input placeholder={p.value} setter={setter} idx={idx} dist={distribution} />
+          <Input
+            placeholder={p.value}
+            setter={setter}
+            idx={idx}
+            dist={distribution}
+            params={ps}
+            param={p.key}
+          />
         </div>)
     }
   </div>
