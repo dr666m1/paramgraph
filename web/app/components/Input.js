@@ -16,11 +16,20 @@ export default function Component({
   const update = e => {
     const str = e.target.value
     setInp(str)
+    if (str.match(/^\s*$/)) {
+      return
+    }
+    let num
+    try {
+      num = Number(str)
+    } catch {
+      return
+    }
     let newParams = {}
     for (const [k, v] of Object.entries(params)) {
       newParams[k] = v
     }
-    newParams[param] = Number(str)
+    newParams[param] = num
     paramSetter(newParams)
     let data
     if (dist === defaultDistribution.name) {
