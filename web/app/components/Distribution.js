@@ -20,9 +20,9 @@ export default function Component({ idx, setter }) {
     })
   }
 
-  return <div className="box">
+  return <div className="box dist-box">
     <div className="has-text-right">
-      <button className="delete is-small" onClick={del}></button>
+      <button className="delete is-small dist-delete" onClick={del}></button>
     </div>
     <label className="label">distribution</label>
     <Dropdown setter={setter} idx={idx} distSetter={setDistribution} paramSetter={setParams} />

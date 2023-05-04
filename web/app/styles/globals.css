@@ -1,3 +1,13 @@
 /* https://www.npmjs.com/package/bulma */
 @import "bulma/css/bulma.css";
 @import "bulma-divider/dist/css/bulma-divider.min.css";
+
+.dist-box {
+  position: relative;
+}
+
+.dist-delete {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
