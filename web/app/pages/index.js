@@ -15,12 +15,16 @@ export default function Home() {
   return (
     <div className="columns">
       <div className="column">
-        <Chart datasets={datasets} />
+        <Chart datasets={datasets.filter(d => typeof d !== "undefined")} />
       </div>
       <div className="column is-one-fifth">
         {/* using idx as key is not recommended but I preferred simplicity */}
         {datasets.map(
-          (d, idx) => <Distribution key={idx} idx={idx} setter={setDatasets} />
+          (d, idx) => {
+            if (typeof d !== "undefined") {
+              return <Distribution key={idx} idx={idx} setter={setDatasets} />
+            }
+          }
         )}
         <button
           className="button is-primary"
