@@ -15,7 +15,9 @@ const newDefaultDataset = (idx) => {
 
 export default function Home() {
   const [datasets, setDatasets] = useState([newDefaultDataset(0)]);
+  const [distributions, setDistributions] = useState([defaultDistribution]);
   const router = useRouter();
+
   useEffect(() => {
     const height = document.getElementById("chart").offsetHeight;
     document.getElementById("right-column").style.maxHeight = `${height}px`;
@@ -53,14 +55,23 @@ export default function Home() {
         {/* using idx as key is not recommended but I preferred simplicity */}
         {datasets.map((d, idx) => {
           if (typeof d !== "undefined") {
-            return <DistBox key={idx} idx={idx} datasetsSetter={setDatasets} />;
+            return (
+              <DistBox
+                key={idx}
+                idx={idx}
+                datasetsSetter={setDatasets}
+                distributionsSetter={setDistributions}
+                distributions={distributions}
+              />
+            );
           }
         })}
         <button
           className="button is-primary"
-          onClick={() =>
-            setDatasets((d) => [...d, newDefaultDataset(datasets.length)])
-          }
+          onClick={() => {
+            setDatasets((d) => [...d, newDefaultDataset(datasets.length)]);
+            setDistributions((d) => [...d, defaultDistribution]);
+          }}
         >
           add distribution
         </button>

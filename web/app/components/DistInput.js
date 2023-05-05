@@ -9,7 +9,7 @@ export default function Component({
   datasetsSetter,
   idx,
   distribution,
-  distributionSetter,
+  distributionsSetter,
   paramName,
 }) {
   const [text, setText] = useState("");
@@ -32,8 +32,11 @@ export default function Component({
 
     let newDist = { ...distribution };
     newDist.parameters[paramName] = num;
-    distributionSetter(newDist);
-    console.log(newDist);
+    distributionsSetter((arr) => {
+      const temp = [...arr];
+      temp[idx] = newDist;
+      return temp;
+    });
     datasetsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = {
