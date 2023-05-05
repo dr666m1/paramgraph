@@ -2,7 +2,7 @@ import { normal as normal_ } from "stats";
 
 export const defaultDistribution = {
   name: "unspecified",
-  display: ({}) => "unspecified",
+  label: ({}) => "unspecified",
   parameters: {},
   func: (_from, _to, {}) => [],
 };
