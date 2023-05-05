@@ -7,11 +7,19 @@ import {
 import DistDropdown from "../components/DistDropdown";
 import DistInput from "../components/DistInput";
 
-export default function Component({ idx, datasetsSetter }) {
-  const [distribution, setDistribution] = useState(defaultDistribution);
-
+export default function Component({
+  idx,
+  datasetsSetter,
+  distributionsSetter,
+  distributions,
+}) {
   const del = () => {
     datasetsSetter((arr) => {
+      const temp = [...arr];
+      temp[idx] = undefined;
+      return temp;
+    });
+    distributionsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = undefined;
       return temp;
@@ -27,18 +35,18 @@ export default function Component({ idx, datasetsSetter }) {
       <DistDropdown
         idx={idx}
         datasetsSetter={datasetsSetter}
-        distribution={distribution}
-        distributionSetter={setDistribution}
+        distribution={distributions[idx]}
+        distributionsSetter={distributionsSetter}
       />
-      {Object.entries(distribution.parameters).map(([k, v]) => (
+      {Object.entries(distributions[idx].parameters).map(([k, v]) => (
         <div key={k}>
           <label className="label">{k}</label>
           <DistInput
             idx={idx}
             datasetsSetter={datasetsSetter}
-            distribution={distribution}
+            distribution={distributions[idx]}
             paramName={k}
-            distributionSetter={setDistribution}
+            distributionsSetter={distributionsSetter}
           />
         </div>
       ))}

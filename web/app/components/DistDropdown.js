@@ -8,7 +8,7 @@ import {
 export default function Component({
   datasetsSetter,
   idx,
-  distributionSetter,
+  distributionsSetter,
   distribution,
 }) {
   const update = (e) => {
@@ -18,12 +18,16 @@ export default function Component({
       const temp = [...arr];
       temp[idx] = {
         ...arr[idx],
-        label: dist.name,
+        label: dist.label(dist.parameters),
         data,
       };
       return temp;
     });
-    distributionSetter(dist);
+    distributionsSetter((arr) => {
+      const temp = [...arr];
+      temp[idx] = dist;
+      return temp;
+    });
   };
 
   return (
