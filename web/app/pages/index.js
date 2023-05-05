@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Chart from "../components/Chart";
 import Distribution from "../components/Distribution";
-import { defaultDistribution } from "../src/constants";
+import { defaultDistribution } from "../src/distributions";
 
 const defaultDataset = (idx) => {
   return {

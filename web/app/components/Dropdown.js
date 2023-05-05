@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { normal } from "../src/calculator";
 
-import { defaultDistribution, distributions, arr2obj } from "../src/constants";
+import {
+  defaultDistribution,
+  distributions,
+  arr2obj,
+  getDistByName,
+} from "../src/distributions";
 
 export default function Component({ setter, idx, distSetter, paramSetter }) {
   const [selected, setSelected] = useState(defaultDistribution.name);
@@ -26,7 +31,7 @@ export default function Component({ setter, idx, distSetter, paramSetter }) {
       return temp;
     });
     distSetter(distName);
-    const dist = distributions.filter((d) => d.name === distName)[0];
+    const dist = getDistByName(distName);
     paramSetter(arr2obj(dist.parameters));
   };
 

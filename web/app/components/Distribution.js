@@ -5,7 +5,8 @@ import {
   distributions,
   arr2obj,
   obj2arr,
-} from "../src/constants";
+  getDistByName,
+} from "../src/distributions";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input";
 
@@ -42,9 +43,9 @@ export default function Component({ idx, setter }) {
           <label className="label">{p.key}</label>
           <Input
             placeholder={
-              distributions
-                .filter((d) => d.name === distribution)[0]
-                .parameters.filter((param) => param.key === p.key)[0].value
+              getDistByName(distribution).parameters.filter(
+                (param) => param.key === p.key
+              )[0].value
             }
             setter={setter}
             idx={idx}

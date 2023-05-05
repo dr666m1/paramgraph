@@ -31,3 +31,11 @@ export function obj2arr(obj) {
   }
   return temp;
 }
+
+export function getDistByName(name) {
+  const dists = distributions.filter((d) => d.name === name);
+  if (dists.length > 1) {
+    throw new Error("cannot specify distribution");
+  }
+  return dists[0];
+}

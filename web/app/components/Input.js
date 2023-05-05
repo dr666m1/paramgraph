@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { defaultDistribution, distributions } from "../src/constants";
+import {
+  defaultDistribution,
+  distributions,
+  getDistByName,
+} from "../src/distributions";
 import { normal } from "../src/calculator";
 
 export default function Component({
@@ -37,9 +41,7 @@ export default function Component({
     } else {
       data = normal(-3, 3, newParams);
     }
-    const label = distributions
-      .filter((d) => d.name === dist)[0]
-      .display(newParams);
+    const label = getDistByName(dist).display(newParams);
     setter((arr) => {
       const temp = [...arr];
       temp[idx] = {
