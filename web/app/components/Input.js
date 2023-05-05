@@ -29,6 +29,9 @@ export default function Component({
     } catch {
       return;
     }
+    if (isNaN(num)) {
+      return; // if str === "-"
+    }
     let newParams = {};
     for (const [k, v] of Object.entries(params)) {
       newParams[k] = v;
