@@ -3,7 +3,7 @@ import Chart from "../components/Chart";
 import Distribution from "../components/Distribution";
 import { defaultDistribution } from "../src/distributions";
 
-const defaultDataset = (idx) => {
+const newDefaultDataset = (idx) => {
   return {
     label: defaultDistribution.name,
     showLine: true,
@@ -13,7 +13,7 @@ const defaultDataset = (idx) => {
 };
 
 export default function Home() {
-  const [datasets, setDatasets] = useState([defaultDataset(0)]);
+  const [datasets, setDatasets] = useState([newDefaultDataset(0)]);
   useEffect(() => {
     const height = document.getElementById("chart").offsetHeight;
     document.getElementById("right-column").style.maxHeight = `${height}px`;
@@ -40,7 +40,7 @@ export default function Home() {
         <button
           className="button is-primary"
           onClick={() =>
-            setDatasets((d) => [...d, defaultDataset(datasets.length)])
+            setDatasets((d) => [...d, newDefaultDataset(datasets.length)])
           }
         >
           add distribution
