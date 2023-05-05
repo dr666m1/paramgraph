@@ -3,16 +3,14 @@ import dynamic from "next/dynamic";
 import {
   defaultDistribution,
   distributions,
-  obj2arr,
   getDistByName,
-  getParamsAsObj,
-} from "../src/distributions";
+} from "../src/distribution";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input";
 
 export default function Component({ idx, setter }) {
   const [distribution, setDistribution] = useState(defaultDistribution.name);
-  const [params, setParams] = useState(getParamsAsObj(defaultDistribution));
+  const [params, setParams] = useState(defaultDistribution.parameters);
 
   const del = () => {
     setter((arr) => {
@@ -38,7 +36,7 @@ export default function Component({ idx, setter }) {
         <div key={k}>
           <label className="label">{k}</label>
           <Input
-            placeholder={getParamsAsObj(getDistByName(distribution))[k]}
+            placeholder={getDistByName(distribution).parameters[k]}
             setter={setter}
             idx={idx}
             dist={distribution}

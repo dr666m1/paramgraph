@@ -3,7 +3,7 @@ import {
   defaultDistribution,
   distributions,
   getDistByName,
-} from "../src/distributions";
+} from "../src/distribution";
 import { normal } from "../src/calculator";
 
 export default function Component({

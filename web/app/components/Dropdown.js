@@ -5,8 +5,7 @@ import {
   defaultDistribution,
   distributions,
   getDistByName,
-  getParamsAsObj,
-} from "../src/distributions";
+} from "../src/distribution";
 
 export default function Component({ setter, idx, distSetter, paramSetter }) {
   const [selected, setSelected] = useState(defaultDistribution.name);
@@ -32,7 +31,7 @@ export default function Component({ setter, idx, distSetter, paramSetter }) {
     });
     distSetter(distName);
     const dist = getDistByName(distName);
-    paramSetter(getParamsAsObj(dist));
+    paramSetter(dist.parameters);
   };
 
   return (
