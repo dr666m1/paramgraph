@@ -30,5 +30,8 @@
     "deployments",
     "web/stats/pkg",
     "web/app"
-  ]
+  ],
+  "dependencies": {
+    "js-base64": "^3.7.5"
+  }
 }

@@ -3,6 +3,7 @@ import Chart from "../components/Chart";
 import DistBox from "../components/DistBox";
 import { defaultDistribution, getDistByName } from "../src/distribution";
 import { useRouter } from "next/router";
+import { Base64, decode } from "js-base64";
 
 const newDefaultDataset = (idx) => {
   return {
@@ -23,17 +24,29 @@ export default function Home() {
     document.getElementById("right-column").style.maxHeight = `${height}px`;
 
     // https://hkc7180.medium.com/how-handle-query-in-nextjs-router-62abb1927c1d
-    if (router.query.id) {
-      const nord = getDistByName("N(μ, σ)");
-      router.replace({ query: {} });
-      setDatasets([
-        {
-          label: nord.name,
-          showLine: true,
-          data: nord.func(-3, 3, nord.parameters),
-          idx: 0,
-        },
-      ]);
+    const id = router.query.id;
+    if (id) {
+      try {
+        const json = Base64.decode(id);
+        console.log(json);
+        const dists = JSON.parse(json);
+        setDatasets(
+          dists.map((d, idx) => {
+            d.label = getDistByName(d.name).label;
+            d.func = getDistByName(d.name).func;
+            return {
+              label: d.label(d.parameters),
+              showLine: true,
+              data: d.func(-3, 3, d.parameters),
+              idx,
+            };
+          })
+        );
+        setDistributions(dists);
+      } catch (e) {
+        console.log(e);
+        alert("invalid query string");
+      }
     }
     console.log(
       "if you see this message thousands of times, something is going wrong"
@@ -74,6 +87,21 @@ export default function Home() {
           }}
         >
           add distribution
+        </button>
+        <button
+          id="share"
+          className="button"
+          onClick={async () => {
+            const json = JSON.stringify(
+              distributions.filter((d) => typeof d !== "undefined")
+            );
+            const b64 = Base64.encodeURL(json);
+            const url = `${document.URL}?id=${b64}`;
+            await navigator.clipboard.writeText(url);
+            alert("copied!");
+          }}
+        >
+          share
         </button>
       </div>
     </div>
