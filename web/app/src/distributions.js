@@ -16,14 +16,6 @@ export const distributions = [
   },
 ];
 
-export function arr2obj(arr) {
-  let temp = {};
-  for (const elm of arr) {
-    temp[elm.key] = elm.value;
-  }
-  return temp;
-}
-
 export function obj2arr(obj) {
   let temp = [];
   for (const [k, v] of Object.entries(obj)) {
@@ -38,4 +30,13 @@ export function getDistByName(name) {
     throw new Error("cannot specify distribution");
   }
   return dists[0];
+}
+
+export function getParamsAsObj(dist) {
+  const arr = dist.parameters;
+  let temp = {};
+  for (const elm of arr) {
+    temp[elm.key] = elm.value;
+  }
+  return temp;
 }

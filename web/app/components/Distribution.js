@@ -3,20 +3,16 @@ import dynamic from "next/dynamic";
 import {
   defaultDistribution,
   distributions,
-  arr2obj,
   obj2arr,
   getDistByName,
+  getParamsAsObj,
 } from "../src/distributions";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input";
 
 export default function Component({ idx, setter }) {
   const [distribution, setDistribution] = useState(defaultDistribution.name);
-  const tempParams = {}; // array -> object
-  for (const p of defaultDistribution.parameters) {
-    tempParams[p.key] = p.value;
-  }
-  const [params, setParams] = useState(tempParams);
+  const [params, setParams] = useState(getParamsAsObj(defaultDistribution));
 
   const del = () => {
     setter((arr) => {
@@ -38,20 +34,16 @@ export default function Component({ idx, setter }) {
         distSetter={setDistribution}
         paramSetter={setParams}
       />
-      {obj2arr(params).map((p, _, ps) => (
-        <div key={p.key}>
-          <label className="label">{p.key}</label>
+      {Object.entries(params).map(([k, v], _, ps) => (
+        <div key={k}>
+          <label className="label">{k}</label>
           <Input
-            placeholder={
-              getDistByName(distribution).parameters.filter(
-                (param) => param.key === p.key
-              )[0].value
-            }
+            placeholder={getParamsAsObj(getDistByName(distribution))[k]}
             setter={setter}
             idx={idx}
             dist={distribution}
-            params={arr2obj(ps)}
-            param={p.key}
+            params={params}
+            param={k}
             paramSetter={setParams}
           />
         </div>

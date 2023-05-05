@@ -4,8 +4,8 @@ import { normal } from "../src/calculator";
 import {
   defaultDistribution,
   distributions,
-  arr2obj,
   getDistByName,
+  getParamsAsObj,
 } from "../src/distributions";
 
 export default function Component({ setter, idx, distSetter, paramSetter }) {
@@ -32,7 +32,7 @@ export default function Component({ setter, idx, distSetter, paramSetter }) {
     });
     distSetter(distName);
     const dist = getDistByName(distName);
-    paramSetter(arr2obj(dist.parameters));
+    paramSetter(getParamsAsObj(dist));
   };
 
   return (
