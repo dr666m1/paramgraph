@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }) {
   return (
     <div id="app" className={inter.className}>
       <nav className="navbar">
-        <div className="navbar-brand">param-graph</div>
+        <div className="navbar-brand">paramgraph</div>
       </nav>
       <div className="is-divider"></div>
       <Component {...pageProps} />
