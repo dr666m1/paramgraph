@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Chart from "../components/Chart";
-import Distribution from "../components/Distribution";
+import DistBox from "../components/DistBox";
 import { defaultDistribution } from "../src/distribution";
 
 const newDefaultDataset = (idx) => {
@@ -34,7 +34,7 @@ export default function Home() {
         {/* using idx as key is not recommended but I preferred simplicity */}
         {datasets.map((d, idx) => {
           if (typeof d !== "undefined") {
-            return <Distribution key={idx} idx={idx} setter={setDatasets} />;
+            return <DistBox key={idx} idx={idx} setter={setDatasets} />;
           }
         })}
         <button

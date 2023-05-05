@@ -5,8 +5,8 @@ import {
   distributions,
   getDistByName,
 } from "../src/distribution";
-import Dropdown from "../components/Dropdown";
-import Input from "../components/Input";
+import DistDropdown from "../components/DistDropdown";
+import DistInput from "../components/DistInput";
 
 export default function Component({ idx, setter }) {
   const [distribution, setDistribution] = useState(defaultDistribution.name);
@@ -26,7 +26,7 @@ export default function Component({ idx, setter }) {
         <button className="delete is-small dist-delete" onClick={del}></button>
       </div>
       <label className="label">distribution</label>
-      <Dropdown
+      <DistDropdown
         setter={setter}
         idx={idx}
         distSetter={setDistribution}
@@ -35,7 +35,7 @@ export default function Component({ idx, setter }) {
       {Object.entries(params).map(([k, v], _, ps) => (
         <div key={k}>
           <label className="label">{k}</label>
-          <Input
+          <DistInput
             placeholder={getDistByName(distribution).parameters[k]}
             setter={setter}
             idx={idx}
