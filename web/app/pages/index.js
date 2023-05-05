@@ -8,7 +8,7 @@ const newDefaultDataset = (idx) => {
     label: defaultDistribution.name,
     showLine: true,
     data: [],
-    idx,
+    idx, // used by chart.js
   };
 };
 
@@ -34,7 +34,7 @@ export default function Home() {
         {/* using idx as key is not recommended but I preferred simplicity */}
         {datasets.map((d, idx) => {
           if (typeof d !== "undefined") {
-            return <DistBox key={idx} idx={idx} setter={setDatasets} />;
+            return <DistBox key={idx} idx={idx} datasetsSetter={setDatasets} />;
           }
         })}
         <button

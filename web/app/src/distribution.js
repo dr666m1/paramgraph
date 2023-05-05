@@ -1,7 +1,10 @@
+import { normal as normal_ } from "stats";
+
 export const defaultDistribution = {
   name: "unspecified",
   display: ({}) => "unspecified",
   parameters: {},
+  func: (_from, _to, {}) => [],
 };
 
 export const distributions = [
@@ -9,8 +12,9 @@ export const distributions = [
   defaultDistribution,
   {
     name: "N(μ, σ)",
-    display: ({ μ, σ }) => `N(${μ}, ${σ})`,
+    label: ({ μ, σ }) => `N(${μ}, ${σ})`,
     parameters: { μ: 0, σ: 1 },
+    func: (from, to, { μ, σ }) => normal_(from, to, μ, σ),
   },
 ];
 
@@ -19,5 +23,8 @@ export function getDistByName(name) {
   if (dists.length > 1) {
     throw new Error("cannot specify distribution");
   }
-  return dists[0];
+  // since parameters are edited, deepcopy is needed
+  let dist = { ...dists[0] };
+  dist.parameters = JSON.parse(JSON.stringify(dist.parameters));
+  return dist;
 }

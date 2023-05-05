@@ -1,42 +1,34 @@
 import { useState } from "react";
-import { normal } from "../src/calculator";
-
 import {
   defaultDistribution,
   distributions,
   getDistByName,
 } from "../src/distribution";
 
-export default function Component({ setter, idx, distSetter, paramSetter }) {
-  const [selected, setSelected] = useState(defaultDistribution.name);
-
+export default function Component({
+  datasetsSetter,
+  idx,
+  distributionSetter,
+  distribution,
+}) {
   const update = (e) => {
-    const distName = e.target.value;
-    setSelected(distName);
-
-    let data;
-    if (distName === defaultDistribution.name) {
-      data = [];
-    } else {
-      data = normal(-3, 3, { μ: 0, σ: 1 });
-    }
-    setter((arr) => {
+    const dist = getDistByName(e.target.value);
+    const data = dist.func(-3, 3, dist.parameters);
+    datasetsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = {
         ...arr[idx],
-        label: distName,
+        label: dist.name,
         data,
       };
       return temp;
     });
-    distSetter(distName);
-    const dist = getDistByName(distName);
-    paramSetter(dist.parameters);
+    distributionSetter(dist);
   };
 
   return (
     <div className="select">
-      <select value={selected} onChange={update}>
+      <select value={distribution.name} onChange={update}>
         {distributions.map((d, idx) => (
           <option key={idx}>{d.name}</option>
         ))}

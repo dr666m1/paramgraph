@@ -1,5 +1,4 @@
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import {
   defaultDistribution,
   distributions,
@@ -8,12 +7,11 @@ import {
 import DistDropdown from "../components/DistDropdown";
 import DistInput from "../components/DistInput";
 
-export default function Component({ idx, setter }) {
-  const [distribution, setDistribution] = useState(defaultDistribution.name);
-  const [params, setParams] = useState(defaultDistribution.parameters);
+export default function Component({ idx, datasetsSetter }) {
+  const [distribution, setDistribution] = useState(defaultDistribution);
 
   const del = () => {
-    setter((arr) => {
+    datasetsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = undefined;
       return temp;
@@ -27,22 +25,20 @@ export default function Component({ idx, setter }) {
       </div>
       <label className="label">distribution</label>
       <DistDropdown
-        setter={setter}
         idx={idx}
-        distSetter={setDistribution}
-        paramSetter={setParams}
+        datasetsSetter={datasetsSetter}
+        distribution={distribution}
+        distributionSetter={setDistribution}
       />
-      {Object.entries(params).map(([k, v], _, ps) => (
+      {Object.entries(distribution.parameters).map(([k, v]) => (
         <div key={k}>
           <label className="label">{k}</label>
           <DistInput
-            placeholder={getDistByName(distribution).parameters[k]}
-            setter={setter}
             idx={idx}
-            dist={distribution}
-            params={params}
-            param={k}
-            paramSetter={setParams}
+            datasetsSetter={datasetsSetter}
+            distribution={distribution}
+            paramName={k}
+            distributionSetter={setDistribution}
           />
         </div>
       ))}

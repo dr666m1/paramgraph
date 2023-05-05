@@ -4,22 +4,19 @@ import {
   distributions,
   getDistByName,
 } from "../src/distribution";
-import { normal } from "../src/calculator";
 
 export default function Component({
-  setter,
-  placeholder,
+  datasetsSetter,
   idx,
-  dist,
-  params,
-  param,
-  paramSetter,
+  distribution,
+  distributionSetter,
+  paramName,
 }) {
-  const [inp, setInp] = useState("");
+  const [text, setText] = useState("");
 
   const update = (e) => {
     const str = e.target.value;
-    setInp(str);
+    setText(str);
     if (str.match(/^\s*$/)) {
       return;
     }
@@ -32,25 +29,17 @@ export default function Component({
     if (isNaN(num)) {
       return; // if str === "-"
     }
-    let newParams = {};
-    for (const [k, v] of Object.entries(params)) {
-      newParams[k] = v;
-    }
-    newParams[param] = num;
-    paramSetter(newParams);
-    let data;
-    if (dist === defaultDistribution.name) {
-      data = [];
-    } else {
-      data = normal(-3, 3, newParams);
-    }
-    const label = getDistByName(dist).display(newParams);
-    setter((arr) => {
+
+    let newDist = { ...distribution };
+    newDist.parameters[paramName] = num;
+    distributionSetter(newDist);
+    console.log(newDist);
+    datasetsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = {
         ...arr[idx],
-        label,
-        data,
+        label: newDist.label(newDist.parameters),
+        data: newDist.func(-3, 3, newDist.parameters),
       };
       return temp;
     });
@@ -60,8 +49,8 @@ export default function Component({
     <input
       className="input is-small"
       type="text"
-      placeholder={placeholder}
-      value={inp}
+      placeholder={getDistByName(distribution.name).parameters[paramName]}
+      value={text}
       onChange={update}
     ></input>
   );
