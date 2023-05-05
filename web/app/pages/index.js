@@ -43,6 +43,7 @@ export default function Home() {
           })
         );
         setDistributions(dists);
+        router.replace({ query: {} });
       } catch (e) {
         console.log(e);
         alert("invalid query string");
