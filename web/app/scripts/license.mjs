@@ -19,7 +19,7 @@ let shouldRetry = false;
 try {
   shouldRetry = read(result) !== read(source);
 } catch {
-  shouldRetry = true;
+  shouldRetry = true; // if source does not exist
 }
 
 if (shouldRetry) {
