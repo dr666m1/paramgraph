@@ -1,5 +1,3 @@
-import { normal } from "stats";
-
 export const defaultDistribution = {
   name: "unspecified",
   display: ({}) => "unspecified",
@@ -17,10 +15,6 @@ export const distributions = [
     ],
   },
 ];
-
-export function myNormal(from, to, { μ, σ }) {
-  return normal(from, to, μ, σ);
-}
 
 export function arr2obj(arr) {
   let temp = {};

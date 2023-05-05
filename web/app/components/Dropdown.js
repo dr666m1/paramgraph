@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { normal } from "stats";
+import { normal } from "../src/calculator";
 
 import { defaultDistribution, distributions, arr2obj } from "../src/constants";
 
@@ -14,12 +14,7 @@ export default function Component({ setter, idx, distSetter, paramSetter }) {
     if (distName === defaultDistribution.name) {
       data = [];
     } else {
-      data = normal(
-        -3,
-        3,
-        0, // dist.parameters["μ"],
-        1 // dist.parameters["σ"],
-      );
+      data = normal(-3, 3, { μ: 0, σ: 1 });
     }
     setter((arr) => {
       const temp = [...arr];

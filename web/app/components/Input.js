@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { normal } from "stats";
-import { defaultDistribution, distributions, myNormal } from "../src/constants";
+import { defaultDistribution, distributions } from "../src/constants";
+import { normal } from "../src/calculator";
 
 export default function Component({
   setter,
@@ -35,7 +35,7 @@ export default function Component({
     if (dist === defaultDistribution.name) {
       data = [];
     } else {
-      data = myNormal(-3, 3, newParams);
+      data = normal(-3, 3, newParams);
     }
     const label = distributions
       .filter((d) => d.name === dist)[0]
