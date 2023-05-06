@@ -4,6 +4,7 @@ const s3deploy = require("aws-cdk-lib/aws-s3-deployment");
 const cloudfront = require("aws-cdk-lib/aws-cloudfront");
 const origins = require("@aws-cdk/aws-cloudfront-origins");
 const route53 = require("aws-cdk-lib/aws-route53");
+const acm = require("aws-cdk-lib/aws-certificatemanager");
 
 class Paramgraph extends cdk.Stack {
   constructor(scope, id, props) {
@@ -22,9 +23,16 @@ class Paramgraph extends cdk.Stack {
       destinationBucket: bucket,
     });
 
-    // NOTE you havet to add NS recort to dr666m1.net host zone
-    new route53.PublicHostedZone(this, "HostZone", {
-      zoneName: "p2g.dr666m1.net",
+    const subDomain = "p2g.dr666m1.net";
+    // NOTE add NS record to dr666m1.net host zone manually
+    const myHostedZone = new route53.PublicHostedZone(this, "HostZone", {
+      zoneName: subDomain,
+    });
+
+    const myCertificate = new acm.Certificate(this, "Certificate", {
+      domainName: subDomain,
+      // CNAME record is created automatically
+      validation: acm.CertificateValidation.fromDns(myHostedZone),
     });
 
     new cloudfront.Distribution(this, "MyDist", {
@@ -32,6 +40,8 @@ class Paramgraph extends cdk.Stack {
         origin: new origins.S3Origin(bucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
+      domainNames: [subDomain],
+      certificate: myCertificate,
     });
   }
 }
