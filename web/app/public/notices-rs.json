@@ -168,7 +168,7 @@
     },
     {
       "package_name": "matrixmultiply",
-      "package_version": "0.3.7",
+      "package_version": "0.3.6",
       "license": "MIT/Apache-2.0",
       "licenses": [
         {

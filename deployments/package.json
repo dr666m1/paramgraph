@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@aws-cdk/aws-cloudfront-origins": "^1.200.0",
     "aws-cdk-lib": "2.77.0",
     "constructs": "^10.0.0"
   }
