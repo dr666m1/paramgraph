@@ -2,7 +2,7 @@
 
 cd("./web/stats");
 
-await $`cargo install wasm-pack`;
+await $`command -v wasm-pack || cargo install wasm-pack`;
 await $`wasm-pack build --target bundler`;
 
 await $`cargo install cargo-bundle-licenses`;
