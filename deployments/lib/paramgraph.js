@@ -5,6 +5,7 @@ const cloudfront = require("aws-cdk-lib/aws-cloudfront");
 const origins = require("@aws-cdk/aws-cloudfront-origins");
 const route53 = require("aws-cdk-lib/aws-route53");
 const acm = require("aws-cdk-lib/aws-certificatemanager");
+const targets = require("aws-cdk-lib/aws-route53-targets");
 
 class Paramgraph extends cdk.Stack {
   constructor(scope, id, props) {
@@ -35,13 +36,20 @@ class Paramgraph extends cdk.Stack {
       validation: acm.CertificateValidation.fromDns(myHostedZone),
     });
 
-    new cloudfront.Distribution(this, "MyDist", {
+    const distribution = new cloudfront.Distribution(this, "MyDist", {
       defaultBehavior: {
         origin: new origins.S3Origin(bucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
       domainNames: [subDomain],
       certificate: myCertificate,
+    });
+
+    new route53.ARecord(this, "AliasRecord", {
+      zone: myHostedZone,
+      target: route53.RecordTarget.fromAlias(
+        new targets.CloudFrontTarget(distribution)
+      ),
     });
   }
 }
