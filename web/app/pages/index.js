@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Chart from "../components/Chart";
 import DistBox from "../components/DistBox";
+import RangeInput from "../components/RangeInput";
 import { defaultDistribution, getDistByName } from "../src/distribution";
 import { useRouter } from "next/router";
 import { Base64, decode } from "js-base64";
@@ -60,6 +61,7 @@ export default function Home() {
         <div id="chart">
           <Chart datasets={datasets.filter((d) => typeof d !== "undefined")} />
         </div>
+        <RangeInput />
       </div>
       <div
         id="right-column"
