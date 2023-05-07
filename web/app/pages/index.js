@@ -89,7 +89,7 @@ export default function Home() {
           }
         })}
         <button
-          className="button is-primary"
+          className="button is-primary is-fullwidth"
           onClick={() => {
             setDatasets((d) => [...d, newDefaultDataset(datasets.length)]);
             setDistributions((d) => [...d, defaultDistribution]);
@@ -99,7 +99,7 @@ export default function Home() {
         </button>
         <button
           id="share"
-          className="button"
+          className="button is-fullwidth"
           onClick={async () => {
             const json = JSON.stringify(
               distributions.filter((d) => typeof d !== "undefined")
