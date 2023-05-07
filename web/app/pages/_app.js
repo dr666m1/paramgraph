@@ -10,9 +10,31 @@ export default function App({ Component, pageProps }) {
   return (
     <div id="app" className={inter.className}>
       <nav className="navbar">
-        <div className="navbar-brand">paramgraph</div>
+        <div className="navbar-brand">
+          <Link href="/" className="navbar-item" id="header-logo" />
+          <a
+            role="button"
+            className="navbar-burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navBarMenu"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <div id="navBarMenu" className="navbar-menu">
+          <div className="navbar-start">
+            <Link className="navbar-item" href="/">
+              Home
+            </Link>
+            <Link className="navbar-item" href="/notices">
+              Third Party License Notices
+            </Link>
+          </div>
+        </div>
       </nav>
-      <div className="is-divider"></div>
       <Component {...pageProps} />
       <footer className="footer">
         <div className="content columns">

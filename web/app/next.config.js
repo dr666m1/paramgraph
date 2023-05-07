@@ -35,6 +35,9 @@ class WasmChunksFixPlugin {
 const nextConfig = {
   reactStrictMode: true,
   output: "export",
+  images: {
+    unoptimized: true,
+  },
   webpack: (config, { isServer, dev }) => {
     myConfig(config, { isServer, dev });
     wasmConfig(config, { isServer, dev });
