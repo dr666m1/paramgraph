@@ -3,10 +3,13 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import GitHubButton from "react-github-btn";
 import Link from "next/link";
+import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }) {
+  const [isActive, setIsActive] = useState(false);
+
   return (
     <div id="app" className={inter.className}>
       <nav className="navbar">
@@ -14,17 +17,23 @@ export default function App({ Component, pageProps }) {
           <Link href="/" className="navbar-item" id="header-logo" />
           <a
             role="button"
-            className="navbar-burger"
+            className={`navbar-burger ${isActive ? "is-active" : ""}`}
             aria-label="menu"
             aria-expanded="false"
             data-target="navBarMenu"
+            onClick={(e) => {
+              setIsActive((isActive) => !isActive);
+            }}
           >
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
           </a>
         </div>
-        <div id="navBarMenu" className="navbar-menu">
+        <div
+          id="navBarMenu"
+          className={`navbar-menu ${isActive ? "is-active" : ""}`}
+        >
           <div className="navbar-start">
             <Link className="navbar-item" href="/">
               Home
