@@ -18,6 +18,7 @@ const newDefaultDataset = (idx) => {
 export default function Home() {
   const [datasets, setDatasets] = useState([newDefaultDataset(0)]);
   const [distributions, setDistributions] = useState([defaultDistribution]);
+  const [range, setRange] = useState([-3, 3]);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,7 +30,6 @@ export default function Home() {
     if (id) {
       try {
         const json = Base64.decode(id);
-        console.log(json);
         const dists = JSON.parse(json);
         setDatasets(
           dists.map((d, idx) => {
@@ -61,7 +61,12 @@ export default function Home() {
         <div id="chart">
           <Chart datasets={datasets.filter((d) => typeof d !== "undefined")} />
         </div>
-        <RangeInput />
+        <RangeInput
+          range={range}
+          rangeSetter={setRange}
+          datasetsSetter={setDatasets}
+          distributions={distributions}
+        />
       </div>
       <div
         id="right-column"

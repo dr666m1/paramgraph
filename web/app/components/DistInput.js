@@ -19,13 +19,12 @@ export default function Component({
     setText(str);
     let num;
     if (str.match(/^\s*$/)) {
-      num = getDistByName(distribution.name).parameters[paramName];
-    } else {
-      try {
-        num = Number(str);
-      } catch {
-        return;
-      }
+      return;
+    }
+    try {
+      num = Number(str);
+    } catch {
+      return;
     }
     if (isNaN(num)) {
       return; // if str === "-"
