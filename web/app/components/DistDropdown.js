@@ -10,10 +10,11 @@ export default function Component({
   idx,
   distributionsSetter,
   distribution,
+  range,
 }) {
   const update = (e) => {
     const dist = getDistByName(e.target.value);
-    const data = dist.func(-3, 3, dist.parameters);
+    const data = dist.func(range[0], range[1], dist.parameters);
     datasetsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = {
