@@ -12,6 +12,7 @@ export default function Component({
   datasetsSetter,
   distributionsSetter,
   distributions,
+  range,
 }) {
   const del = () => {
     datasetsSetter((arr) => {
@@ -37,6 +38,7 @@ export default function Component({
         datasetsSetter={datasetsSetter}
         distribution={distributions[idx]}
         distributionsSetter={distributionsSetter}
+        range={range}
       />
       {Object.entries(distributions[idx].parameters).map(([k, v]) => (
         <div key={k}>
@@ -47,6 +49,7 @@ export default function Component({
             distribution={distributions[idx]}
             paramName={k}
             distributionsSetter={distributionsSetter}
+            range={range}
           />
         </div>
       ))}

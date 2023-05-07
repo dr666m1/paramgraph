@@ -11,6 +11,7 @@ export default function Component({
   distribution,
   distributionsSetter,
   paramName,
+  range,
 }) {
   const [text, setText] = useState(distribution.parameters[paramName]);
 
@@ -42,7 +43,7 @@ export default function Component({
       temp[idx] = {
         ...arr[idx],
         label: newDist.label(newDist.parameters),
-        data: newDist.func(-3, 3, newDist.parameters),
+        data: newDist.func(range[0], range[1], newDist.parameters),
       };
       return temp;
     });

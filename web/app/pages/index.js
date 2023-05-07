@@ -83,6 +83,7 @@ export default function Home() {
                 datasetsSetter={setDatasets}
                 distributionsSetter={setDistributions}
                 distributions={distributions}
+                range={range}
               />
             );
           }
