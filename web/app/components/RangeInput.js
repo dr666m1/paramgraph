@@ -45,18 +45,22 @@ export default function Component({
 
   return (
     <div className="has-text-centered">
-      from:{" "}
-      <input
-        value={texts[0]}
-        className="input is-small is-inline"
-        onChange={update.bind(null, true)}
-      />{" "}
-      to:{" "}
-      <input
-        value={texts[1]}
-        className="input is-small is-inline"
-        onChange={update.bind(null, false)}
-      />
+      <nobr>
+        from:{" "}
+        <input
+          value={texts[0]}
+          className="input is-small is-inline"
+          onChange={update.bind(null, true)}
+        />
+      </nobr>{" "}
+      <nobr>
+        to:{" "}
+        <input
+          value={texts[1]}
+          className="input is-small is-inline"
+          onChange={update.bind(null, false)}
+        />
+      </nobr>
     </div>
   );
 }
