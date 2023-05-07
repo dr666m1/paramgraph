@@ -35,12 +35,23 @@ export default function App({ Component, pageProps }) {
           className={`navbar-menu ${isActive ? "is-active" : ""}`}
         >
           <div className="navbar-start">
-            <Link className="navbar-item" href="/">
-              Home
-            </Link>
-            <Link className="navbar-item" href="/notices">
-              Third Party License Notices
-            </Link>
+            {[
+              { href: "/", text: "Home" },
+              { href: "/notices", text: "Third Party License Notices" },
+            ].map((page) => {
+              return (
+                <Link
+                  className="navbar-item"
+                  href={page.href}
+                  onClick={(e) => {
+                    setIsActive((isActive) => !isActive);
+                  }}
+                  key={page.href}
+                >
+                  {page.text}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </nav>
