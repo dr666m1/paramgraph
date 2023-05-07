@@ -2,6 +2,7 @@
 import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import GitHubButton from "react-github-btn";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +22,16 @@ export default function App({ Component, pageProps }) {
           <div className="column">
             <strong>MENU</strong>
             <ul>
-              <li>HOME</li>
-              <li>THIRD PARTY LICENSE NOTICES</li>
+              <li>
+                <Link href="/" className="has-text-dark">
+                  HOME
+                </Link>
+              </li>
+              <li>
+                <Link href="notices" className="has-text-dark">
+                  THIRD PARTY LICENSE NOTICES
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="column">
