@@ -92,30 +92,36 @@ export default function Home() {
             );
           }
         })}
-        <button
-          className="button is-primary is-fullwidth"
-          onClick={() => {
-            setDatasets((d) => [...d, newDefaultDataset(datasets.length)]);
-            setDistributions((d) => [...d, defaultDistribution]);
-          }}
-        >
-          add distribution
-        </button>
-        <button
-          id="share"
-          className="button is-fullwidth"
-          onClick={async () => {
-            const json = JSON.stringify(
-              distributions.filter((d) => typeof d !== "undefined")
-            );
-            const b64 = Base64.encodeURL(json);
-            const url = `${document.URL}?id=${b64}`;
-            await navigator.clipboard.writeText(url);
-            alert("copied!");
-          }}
-        >
-          share
-        </button>
+        <div className="field is-grouped">
+          <div className="control is-expanded">
+            <button
+              className="button is-primary is-fullwidth"
+              onClick={() => {
+                setDatasets((d) => [...d, newDefaultDataset(datasets.length)]);
+                setDistributions((d) => [...d, defaultDistribution]);
+              }}
+            >
+              add distribution
+            </button>
+          </div>
+          <div className="control">
+            <button
+              id="share"
+              className="button"
+              onClick={async () => {
+                const json = JSON.stringify(
+                  distributions.filter((d) => typeof d !== "undefined")
+                );
+                const b64 = Base64.encodeURL(json);
+                const url = `${document.URL}?id=${b64}`;
+                await navigator.clipboard.writeText(url);
+                alert("copied!");
+              }}
+            >
+              share
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
