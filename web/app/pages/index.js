@@ -58,7 +58,11 @@ export default function Home() {
   return (
     <div className="columns">
       <div className="column">
-        <div id="chart">
+        <div
+          id="chart"
+          className="is-fullwidth"
+          style={{ position: "relative" }}
+        >
           <Chart datasets={datasets.filter((d) => typeof d !== "undefined")} />
         </div>
         <RangeInput
