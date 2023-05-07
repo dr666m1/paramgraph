@@ -7,7 +7,27 @@ export default function Component({
   range,
 }) {
   const [texts, setTexts] = useState(range.map(String));
-  const commonProcess = (newRange) => {
+  const update = (isFrom, e) => {
+    const str = e.target.value;
+    setTexts((texts) => {
+      const temp = [...texts];
+      temp[isFrom ? 0 : 1] = str;
+      return temp;
+    });
+    let num;
+    if (str.match(/^\s*$/)) {
+      return;
+    }
+    try {
+      num = Number(str);
+    } catch {
+      return;
+    }
+    if (isNaN(num)) {
+      return; // if str === "-"
+    }
+    const newRange = [...range];
+    newRange[isFrom ? 0 : 1] = num;
     rangeSetter(newRange);
     datasetsSetter((arr) => {
       return arr.map((elm, idx) => {
@@ -22,52 +42,6 @@ export default function Component({
       });
     });
   };
-  const updateFrom = (e) => {
-    const str = e.target.value;
-    setTexts((texts) => {
-      const temp = [...texts];
-      temp[0] = str;
-      return temp;
-    });
-    let num;
-    if (str.match(/^\s*$/)) {
-      return;
-    }
-    try {
-      num = Number(str);
-    } catch {
-      return;
-    }
-    if (isNaN(num)) {
-      return; // if str === "-"
-    }
-    const newRange = [...range];
-    newRange[0] = num;
-    commonProcess.call(null, newRange);
-  };
-  const updateTo = (e) => {
-    const str = e.target.value;
-    setTexts((texts) => {
-      const temp = [...texts];
-      temp[1] = str;
-      return temp;
-    });
-    let num;
-    if (str.match(/^\s*$/)) {
-      return;
-    }
-    try {
-      num = Number(str);
-    } catch {
-      return;
-    }
-    if (isNaN(num)) {
-      return; // if str === "-"
-    }
-    const newRange = [...range];
-    newRange[1] = num;
-    commonProcess.call(null, newRange);
-  };
 
   return (
     <div>
@@ -75,13 +49,13 @@ export default function Component({
       <input
         value={texts[0]}
         className="input is-small is-inline"
-        onChange={updateFrom}
+        onChange={update.bind(null, true)}
       />{" "}
       to:{" "}
       <input
         value={texts[1]}
         className="input is-small is-inline"
-        onChange={updateTo}
+        onChange={update.bind(null, false)}
       />
     </div>
   );
