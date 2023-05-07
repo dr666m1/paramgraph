@@ -95,7 +95,7 @@ export default function Home() {
         <div className="field is-grouped">
           <div className="control is-expanded">
             <button
-              className="button is-primary is-fullwidth"
+              className="button is-dark is-fullwidth"
               onClick={() => {
                 setDatasets((d) => [...d, newDefaultDataset(datasets.length)]);
                 setDistributions((d) => [...d, defaultDistribution]);
