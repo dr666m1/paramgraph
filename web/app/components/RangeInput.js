@@ -44,7 +44,7 @@ export default function Component({
   };
 
   return (
-    <div>
+    <div className="has-text-centered">
       from:{" "}
       <input
         value={texts[0]}
