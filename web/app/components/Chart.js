@@ -11,7 +11,11 @@ import {
 ChartJS.register(LinearScale, LineElement, PointElement, Colors, Legend);
 
 export const options = {
+  // NOTE
+  // chart may shrink on some browser
+  // see https://github.com/chartjs/Chart.js/issues/10890
   responsive: true,
+  maintainAspectRatio: true,
   plugins: {
     colors: {
       // https://www.chartjs.org/docs/latest/general/colors.html#dynamic-datasets-at-runtime

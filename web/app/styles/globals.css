@@ -11,3 +11,12 @@
   top: 15px;
   right: 15px;
 }
+
+/* https://stackoverflow.com/questions/60301207 */
+#header-logo {
+  background: url(https://user-images.githubusercontent.com/26474260/236668394-027a1bb4-d482-4454-94ca-f92cd65623e1.png)
+    no-repeat center center;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+}
