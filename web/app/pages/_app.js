@@ -1,5 +1,5 @@
 // globals.css must be imported here!
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import { Inter } from "next/font/google";
 import GitHubButton from "react-github-btn";
 import Link from "next/link";

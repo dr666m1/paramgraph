@@ -6,7 +6,7 @@ import { defaultDistribution, getDistByName } from "../src/distribution";
 import { useRouter } from "next/router";
 import { Base64, decode } from "js-base64";
 
-const newDefaultDataset = (idx) => {
+const newDefaultDataset = (idx: number) => {
   return {
     label: defaultDistribution.name,
     showLine: true,
@@ -22,17 +22,22 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    const height = document.getElementById("chart").offsetHeight;
-    document.getElementById("right-column").style.maxHeight = `${height}px`;
+    const height = document.getElementById("chart")!.offsetHeight;
+    document.getElementById("right-column")!.style.maxHeight = `${height}px`;
 
     // https://hkc7180.medium.com/how-handle-query-in-nextjs-router-62abb1927c1d
-    const id = router.query.id;
+    let id = router.query.id;
+    if (Array.isArray(id)) {
+      id = id[0];
+    }
+    console.log(id);
     if (id) {
       try {
         const json = Base64.decode(id);
         const dists = JSON.parse(json);
         setDatasets(
-          dists.map((d, idx) => {
+          // TODO rm any
+          dists.map((d: any, idx: number) => {
             d.label = getDistByName(d.name).label;
             d.func = getDistByName(d.name).func;
             return {

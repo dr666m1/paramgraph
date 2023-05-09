@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/dr666m1/paramgraph/issues"
   },
-  "homepage": "https://github.com/dr666m1/paramgraph#readme"
+  "homepage": "https://github.com/dr666m1/paramgraph#readme",
+  "devDependencies": {
+    "@types/react": "18.2.6"
+  }
 }
