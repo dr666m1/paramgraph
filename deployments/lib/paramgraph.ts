@@ -1,14 +1,16 @@
-const cdk = require("aws-cdk-lib");
-const s3 = require("aws-cdk-lib/aws-s3");
-const s3deploy = require("aws-cdk-lib/aws-s3-deployment");
-const cloudfront = require("aws-cdk-lib/aws-cloudfront");
-const origins = require("@aws-cdk/aws-cloudfront-origins");
-const route53 = require("aws-cdk-lib/aws-route53");
-const acm = require("aws-cdk-lib/aws-certificatemanager");
-const targets = require("aws-cdk-lib/aws-route53-targets");
+import { Construct } from "constructs";
+
+import * as cdk from "aws-cdk-lib";
+import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
+import * as route53 from "aws-cdk-lib/aws-route53";
+import * as targets from "aws-cdk-lib/aws-route53-targets";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
 
 class Paramgraph extends cdk.Stack {
-  constructor(scope, id, props) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const bucket = new s3.Bucket(this, "MyFirstBucket", {

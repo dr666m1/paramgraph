@@ -5,17 +5,22 @@ import {
   getDistByName,
 } from "../src/distribution";
 
+import type * as React from "react";
+
+// TODO rm any
 export default function Component({
   datasetsSetter,
   idx,
   distributionsSetter,
   distribution,
   range,
-}) {
-  const update = (e) => {
-    const dist = getDistByName(e.target.value);
+}: any) {
+  const update = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // TODO rm any
+    const dist: any = getDistByName(e.target.value);
     const data = dist.func(range[0], range[1], dist.parameters);
-    datasetsSetter((arr) => {
+    // TODO rm any
+    datasetsSetter((arr: any) => {
       const temp = [...arr];
       temp[idx] = {
         ...arr[idx],
@@ -24,7 +29,8 @@ export default function Component({
       };
       return temp;
     });
-    distributionsSetter((arr) => {
+    // TODO rm any
+    distributionsSetter((arr: any) => {
       const temp = [...arr];
       temp[idx] = dist;
       return temp;

@@ -3,3 +3,5 @@ web/app/.next
 web/stats
 web/app/public/notices-js.json
 web/app/public/notices-rs.json
+deployments/cdk.out
+deployments/dist

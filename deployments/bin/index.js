@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const cdk = require("aws-cdk-lib");
-const { Paramgraph } = require("../lib/paramgraph");
+const { Paramgraph } = require("../dist/paramgraph");
 
 const app = new cdk.App();
 new Paramgraph(app, "paramgraph", {

@@ -1,13 +1,15 @@
 // globals.css must be imported here!
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import { Inter } from "next/font/google";
 import GitHubButton from "react-github-btn";
 import Link from "next/link";
 import { useState } from "react";
 
+import type { AppProps } from "next/app";
+
 const inter = Inter({ subsets: ["latin"] });
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps }: AppProps) {
   const [isActive, setIsActive] = useState(false);
 
   return (

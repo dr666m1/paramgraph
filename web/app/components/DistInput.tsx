@@ -5,6 +5,9 @@ import {
   getDistByName,
 } from "../src/distribution";
 
+import type * as React from "react";
+
+// TODO rm any
 export default function Component({
   datasetsSetter,
   idx,
@@ -12,10 +15,10 @@ export default function Component({
   distributionsSetter,
   paramName,
   range,
-}) {
+}: any) {
   const [text, setText] = useState(distribution.parameters[paramName]);
 
-  const update = (e) => {
+  const update = (e: React.ChangeEvent<HTMLInputElement>) => {
     const str = e.target.value;
     setText(str);
     let num;
@@ -33,12 +36,14 @@ export default function Component({
 
     let newDist = { ...distribution };
     newDist.parameters[paramName] = num;
-    distributionsSetter((arr) => {
+    // TODO rm any
+    distributionsSetter((arr: any) => {
       const temp = [...arr];
       temp[idx] = newDist;
       return temp;
     });
-    datasetsSetter((arr) => {
+    // TODO rm any
+    datasetsSetter((arr: any) => {
       const temp = [...arr];
       temp[idx] = {
         ...arr[idx],
@@ -53,7 +58,10 @@ export default function Component({
     <input
       className="input is-small"
       type="text"
-      placeholder={getDistByName(distribution.name).parameters[paramName]}
+      placeholder={
+        /* TODO rm any */
+        (getDistByName(distribution.name) as any).parameters[paramName]
+      }
       value={text}
       onChange={update}
     ></input>

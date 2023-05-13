@@ -1,17 +1,9 @@
 {
   "app": "node bin/index.js",
   "watch": {
-    "include": ["**"],
-    "exclude": [
-      "README.md",
-      "cdk*.json",
-      "jest.config.js",
-      "package*.json",
-      "yarn.lock",
-      "node_modules",
-      "test"
-    ]
+    "include": ["./bin/**/*", "./lib/**/*"]
   },
+  "build": "npm run build",
   "context": {
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,

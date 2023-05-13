@@ -7,20 +7,23 @@ import {
 import DistDropdown from "../components/DistDropdown";
 import DistInput from "../components/DistInput";
 
+// TODO rm any
 export default function Component({
   idx,
   datasetsSetter,
   distributionsSetter,
   distributions,
   range,
-}) {
+}: any) {
   const del = () => {
-    datasetsSetter((arr) => {
+    // TODO rm any
+    datasetsSetter((arr: any) => {
       const temp = [...arr];
       temp[idx] = undefined;
       return temp;
     });
-    distributionsSetter((arr) => {
+    // TODO rm any
+    distributionsSetter((arr: any) => {
       const temp = [...arr];
       temp[idx] = undefined;
       return temp;

@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "zx ./scripts/build.mjs && npm run build -w web/app",
+    "build": "zx ./scripts/build.mjs && npm run build -w web/app deployments",
     "serve": "npm run serve -w web/app # if you see some errors, see https://github.com/vercel/next.js/issues/47121",
     "deploy": "npm run deploy -w deployments",
     "test": "prettier --check ."
@@ -24,6 +24,7 @@
   "devDependencies": {
     "aws-cdk": "2.77.0",
     "prettier": "^2.8.8",
+    "typescript": "^5.0.4",
     "webpack-license-plugin": "^4.2.2",
     "zx": "^7.2.1"
   },
