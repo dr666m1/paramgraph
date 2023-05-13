@@ -5,7 +5,7 @@ import GitHubButton from "react-github-btn";
 import Link from "next/link";
 import { useState } from "react";
 
-import type { AppProps } from "next/app"
+import type { AppProps } from "next/app";
 
 const inter = Inter({ subsets: ["latin"] });
 

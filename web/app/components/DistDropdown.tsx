@@ -5,7 +5,7 @@ import {
   getDistByName,
 } from "../src/distribution";
 
-import type * as React from "react"
+import type * as React from "react";
 
 // TODO rm any
 export default function Component({
