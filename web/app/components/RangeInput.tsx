@@ -1,15 +1,18 @@
 import { useState } from "react";
 
+import type * as React from "react";
+
+// TODO rm any
 export default function Component({
   distributions,
   datasetsSetter,
   rangeSetter,
   range,
-}) {
+}: any) {
   const [texts, setTexts] = useState(range.map(String));
-  const update = (isFrom, e) => {
+  const update = (isFrom: boolean, e: React.ChangeEvent<HTMLInputElement>) => {
     const str = e.target.value;
-    setTexts((texts) => {
+    setTexts((texts: string[]) => {
       const temp = [...texts];
       temp[isFrom ? 0 : 1] = str;
       return temp;
@@ -29,8 +32,10 @@ export default function Component({
     const newRange = [...range];
     newRange[isFrom ? 0 : 1] = num;
     rangeSetter(newRange);
-    datasetsSetter((arr) => {
-      return arr.map((elm, idx) => {
+    // TODO rm any
+    datasetsSetter((arr: any) => {
+      // TODO rm any
+      return arr.map((elm: any, idx: number) => {
         return {
           ...elm,
           data: distributions[idx].func(
@@ -45,22 +50,22 @@ export default function Component({
 
   return (
     <div className="has-text-centered">
-      <nobr>
+      <span style={{ whiteSpace: "nowrap" }}>
         from:{" "}
         <input
           value={texts[0]}
           className="input is-small is-inline"
           onChange={update.bind(null, true)}
         />
-      </nobr>{" "}
-      <nobr>
+      </span>{" "}
+      <span style={{ whiteSpace: "nowrap" }}>
         to:{" "}
         <input
           value={texts[1]}
           className="input is-small is-inline"
           onChange={update.bind(null, false)}
         />
-      </nobr>
+      </span>
     </div>
   );
 }

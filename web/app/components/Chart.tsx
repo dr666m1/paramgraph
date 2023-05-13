@@ -34,6 +34,7 @@ export const options = {
   },
 };
 
-export default function Component({ datasets }) {
+// TODO rm any
+export default function Component({ datasets }: any) {
   return <Scatter datasetIdKey="idx" options={options} data={{ datasets }} />;
 }
