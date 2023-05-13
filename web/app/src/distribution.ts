@@ -4,7 +4,7 @@ export const defaultDistribution = {
   name: "unspecified",
   label: ({}) => "unspecified",
   parameters: {},
-  func: (_from, _to, {}) => [],
+  func: (_from: number, _to: number, {}) => [],
 };
 
 export const distributions = [
@@ -12,13 +12,13 @@ export const distributions = [
   defaultDistribution,
   {
     name: "N(μ, σ)",
-    label: ({ μ, σ }) => `N(${μ}, ${σ})`,
+    label: ({ μ, σ }: any) => `N(${μ}, ${σ})`, // TODO rm any
     parameters: { μ: 0, σ: 1 },
-    func: (from, to, { μ, σ }) => normal_(from, to, μ, σ),
+    func: (from: number, to: number, { μ, σ }: any) => normal_(from, to, μ, σ), // TODO rm any
   },
 ];
 
-export function getDistByName(name) {
+export function getDistByName(name: string) {
   const dists = distributions.filter((d) => d.name === name);
   if (dists.length > 1) {
     throw new Error("cannot specify distribution");
