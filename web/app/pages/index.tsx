@@ -3,12 +3,15 @@ import Chart from "../components/Chart";
 import DistBox from "../components/DistBox";
 import RangeInput from "../components/RangeInput";
 import * as D from "../src/distribution";
+import * as U from "../src/utils";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  const [distributions, setDistributions] = useState([D.init("unspecified")]);
-  const [range, setRange] = useState([-3, 3]);
-  const [datasets, setDatasets] = useState([
+  const [distributions, setDistributions] = useState<
+    U.Optional<D.Distribution>[]
+  >([D.init("unspecified")]);
+  const [range, setRange] = useState<[number, number]>([-3, 3]);
+  const [datasets, setDatasets] = useState<U.Optional<D.Dataset>[]>([
     D.init("unspecified").toDataset(-3, 3, 0),
   ]);
   const router = useRouter();
@@ -22,20 +25,16 @@ export default function Home() {
     if (Array.isArray(id)) {
       id = id[0];
     }
-    if (id) {
-      try {
-        const dists = D.fromBase64(id);
-        setDatasets(
-          dists.map((d: D.Distribution, idx: number) =>
-            d.toDataset(range[0], range[1], idx)
-          )
-        );
-        setDistributions(dists);
-        router.replace({ query: {} });
-      } catch (e) {
-        console.log(e);
-        alert("invalid query string");
-      }
+    if (!U.isDefined(id)) {
+      return;
+    }
+    try {
+      const dists = D.fromBase64(id);
+      setDatasets(dists.map((d, idx) => d.toDataset(range[0], range[1], idx)));
+      setDistributions(dists);
+      router.replace({ query: {} });
+    } catch (e) {
+      alert("invalid query string");
     }
     console.log(
       "if you see this message thousands of times, something is going wrong"
@@ -100,9 +99,7 @@ export default function Home() {
               id="share"
               className="button"
               onClick={async () => {
-                const ds = distributions.filter(
-                  (d) => typeof d !== "undefined"
-                );
+                const ds = distributions.filter(U.isDefined);
                 const b64 = D.toBase64(ds);
                 const url = `${document.URL}?id=${b64}`;
                 await navigator.clipboard.writeText(url);
