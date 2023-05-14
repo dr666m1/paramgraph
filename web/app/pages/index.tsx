@@ -49,7 +49,7 @@ export default function Home() {
           className="is-fullwidth"
           style={{ position: "relative" }}
         >
-          <Chart datasets={datasets.filter((d) => typeof d !== "undefined")} />
+          <Chart datasets={datasets.filter(U.isDefined)} />
         </div>
         <RangeInput
           range={range}

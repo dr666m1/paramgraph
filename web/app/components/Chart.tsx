@@ -7,6 +7,7 @@ import {
   Colors,
   Legend,
 } from "chart.js";
+import * as D from "../src/distribution";
 
 ChartJS.register(LinearScale, LineElement, PointElement, Colors, Legend);
 
@@ -34,7 +35,6 @@ export const options = {
   },
 };
 
-// TODO rm any
-export default function Component({ datasets }: any) {
+export default function Component({ datasets }: { datasets: D.Dataset[] }) {
   return <Scatter datasetIdKey="idx" options={options} data={{ datasets }} />;
 }
