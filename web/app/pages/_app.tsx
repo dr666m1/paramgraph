@@ -1,13 +1,14 @@
 // globals.css must be imported here!
 import "../styles/globals.css";
-import { Inter } from "next/font/google";
-import GitHubButton from "react-github-btn";
-import Link from "next/link";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import { RecoilRoot } from "recoil";
 
 import type { AppProps } from "next/app";
+import { Inter } from "next/font/google";
+import Link from "next/link";
+import GitHubButton from "react-github-btn";
+import { RecoilRoot } from "recoil";
+
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

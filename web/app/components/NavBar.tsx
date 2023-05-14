@@ -1,5 +1,6 @@
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
+
 import * as M from "../src/menu";
 
 export default function Component() {

@@ -1,8 +1,9 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { useRecoilState } from "recoil";
+
 import * as D from "../src/distribution";
-import * as U from "../src/utils";
 import * as R from "../src/recoil";
+import * as U from "../src/utils";
 
 export default function Component({
   idx,

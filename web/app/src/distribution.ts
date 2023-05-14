@@ -2,7 +2,6 @@ import { Base64, decode } from "js-base64";
 import { normal as normal_ } from "stats";
 
 export const names = ["unspecified", "normal"] as const;
-
 export type Name = (typeof names)[number];
 export type Params = { [key: string]: number };
 

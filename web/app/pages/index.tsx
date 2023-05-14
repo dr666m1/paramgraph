@@ -1,12 +1,14 @@
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+
 import Chart from "../components/Chart";
 import DistBox from "../components/DistBox";
 import RangeInput from "../components/RangeInput";
+
 import * as D from "../src/distribution";
-import * as U from "../src/utils";
 import * as R from "../src/recoil";
-import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
+import * as U from "../src/utils";
 
 export default function Home() {
   const range = useRecoilValue(R.range);

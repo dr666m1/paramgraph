@@ -1,7 +1,7 @@
 import { atom, selector } from "recoil";
 
-import * as U from "./utils";
 import * as D from "./distribution";
+import * as U from "./utils";
 
 export const range = atom<[number, number]>({ key: "range", default: [-3, 3] });
 
