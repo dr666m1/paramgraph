@@ -1,20 +1,21 @@
 import { useState, Dispatch, SetStateAction } from "react";
+import { useRecoilState } from "recoil";
 import * as D from "../src/distribution";
 import * as U from "../src/utils";
+import * as R from "../src/recoil";
 
 export default function Component({
   datasetsSetter,
   idx,
   distributionsSetter,
   distribution,
-  range,
 }: {
   idx: number;
   datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
   distributionsSetter: Dispatch<SetStateAction<U.Optional<D.Distribution>[]>>;
   distribution: D.Distribution;
-  range: [number, number];
 }) {
+  const [range, _] = useRecoilState(R.range);
   const [selected, setSelected] = useState<D.Name>("unspecified");
   const update = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const distName = e.target.value as D.Name;

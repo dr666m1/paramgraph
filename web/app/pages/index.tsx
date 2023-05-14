@@ -4,13 +4,15 @@ import DistBox from "../components/DistBox";
 import RangeInput from "../components/RangeInput";
 import * as D from "../src/distribution";
 import * as U from "../src/utils";
+import * as R from "../src/recoil";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
 
 export default function Home() {
   const [distributions, setDistributions] = useState<
     U.Optional<D.Distribution>[]
   >([D.init("unspecified")]);
-  const [range, setRange] = useState<[number, number]>([-3, 3]);
+  const [range, _] = useRecoilState(R.range);
   const [datasets, setDatasets] = useState<U.Optional<D.Dataset>[]>([
     D.init("unspecified").toDataset(-3, 3, 0),
   ]);
@@ -52,11 +54,10 @@ export default function Home() {
           <Chart datasets={datasets.filter(U.isDefined)} />
         </div>
         <RangeInput
-          range={range}
-          rangeSetter={setRange}
           datasetsSetter={setDatasets}
           distributions={distributions}
         />
+        {JSON.stringify(range)} // TODO rm
       </div>
       <div
         id="right-column"
@@ -73,7 +74,6 @@ export default function Home() {
                 datasetsSetter={setDatasets}
                 distributionsSetter={setDistributions}
                 distributions={distributions}
-                range={range}
               />
             );
           }

@@ -9,13 +9,11 @@ export default function Component({
   datasetsSetter,
   distributionsSetter,
   distributions,
-  range,
 }: {
   idx: number;
   datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
   distributionsSetter: Dispatch<SetStateAction<U.Optional<D.Distribution>[]>>;
   distributions: U.Optional<D.Distribution>[];
-  range: [number, number];
 }) {
   const del = () => {
     datasetsSetter((arr) => {
@@ -42,7 +40,6 @@ export default function Component({
         datasetsSetter={datasetsSetter}
         distribution={distributions[idx]!}
         distributionsSetter={distributionsSetter}
-        range={range}
       />
       {Object.entries(distributions[idx]!.params).map(([k, v]) => (
         <div key={k}>
@@ -53,7 +50,6 @@ export default function Component({
             distribution={distributions[idx]!}
             paramName={k}
             distributionsSetter={distributionsSetter}
-            range={range}
           />
         </div>
       ))}

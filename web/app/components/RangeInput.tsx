@@ -1,21 +1,20 @@
 import { useState, Dispatch, SetStateAction } from "react";
+import { useRecoilState } from "recoil";
 
 import type * as React from "react";
 
 import * as D from "../src/distribution";
 import * as U from "../src/utils";
+import * as R from "../src/recoil";
 
 export default function Component({
   distributions,
   datasetsSetter,
-  rangeSetter,
-  range,
 }: {
   distributions: U.Optional<D.Distribution>[];
   datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
-  rangeSetter: Dispatch<SetStateAction<[number, number]>>;
-  range: [number, number];
 }) {
+  const [range, setRange] = useRecoilState(R.range);
   const [texts, setTexts] = useState<[string, string]>([
     String(range[0]),
     String(range[1]),
@@ -37,7 +36,7 @@ export default function Component({
     }
     const newRange: [number, number] = [range[0], range[1]];
     newRange[isFrom ? 0 : 1] = num;
-    rangeSetter(newRange);
+    setRange(newRange);
     datasetsSetter((arr: U.Optional<D.Dataset>[]) => {
       return arr.map((elm, idx) => {
         const d = distributions[idx];
