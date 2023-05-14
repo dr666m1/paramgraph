@@ -10,7 +10,7 @@ export default function Component({
   distribution,
   range,
 }: any) {
-  const [selected, setSelected] = useState("unspecified")
+  const [selected, setSelected] = useState("unspecified");
   const update = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const dist = D.init(e.target.value as D.Name);
     const data = dist.calc(range[0], range[1]);
@@ -24,7 +24,7 @@ export default function Component({
       temp[idx] = dist;
       return temp;
     });
-    setSelected(e.target.value)
+    setSelected(e.target.value);
   };
 
   return (

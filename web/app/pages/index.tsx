@@ -6,9 +6,7 @@ import * as D from "../src/distribution";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  const [distributions, setDistributions] = useState([
-    D.init("unspecified"),
-  ]);
+  const [distributions, setDistributions] = useState([D.init("unspecified")]);
   const [range, setRange] = useState([-3, 3]);
   const [datasets, setDatasets] = useState([
     D.init("unspecified").toDataset(-3, 3, 0),
@@ -102,8 +100,10 @@ export default function Home() {
               id="share"
               className="button"
               onClick={async () => {
-                const ds = distributions.filter((d) => typeof d !== "undefined")
-                const b64  = D.toBase64(ds)
+                const ds = distributions.filter(
+                  (d) => typeof d !== "undefined"
+                );
+                const b64 = D.toBase64(ds);
                 const url = `${document.URL}?id=${b64}`;
                 await navigator.clipboard.writeText(url);
                 alert("copied!");
