@@ -2,18 +2,28 @@ import { useState } from "react";
 
 import type * as React from "react";
 
-// TODO rm any
+import * as D from "../src/distribution";
+import * as U from "../src/utils";
+
 export default function Component({
   distributions,
   datasetsSetter,
   rangeSetter,
   range,
-}: any) {
-  const [texts, setTexts] = useState(range.map(String));
+}: {
+  distributions: U.Optional<D.Distribution>[];
+  datasetsSetter: Function;
+  rangeSetter: Function;
+  range: [number, number];
+}) {
+  const [texts, setTexts] = useState<[string, string]>([
+    String(range[0]),
+    String(range[1]),
+  ]);
   const update = (isFrom: boolean, e: React.ChangeEvent<HTMLInputElement>) => {
     const str = e.target.value;
-    setTexts((texts: string[]) => {
-      const temp = [...texts];
+    setTexts((texts) => {
+      const temp: [string, string] = [...texts];
       temp[isFrom ? 0 : 1] = str;
       return temp;
     });
@@ -32,13 +42,15 @@ export default function Component({
     const newRange = [...range];
     newRange[isFrom ? 0 : 1] = num;
     rangeSetter(newRange);
-    // TODO rm any
-    datasetsSetter((arr: any) => {
-      // TODO rm any
-      return arr.map((elm: any, idx: number) => {
+    datasetsSetter((arr: U.Optional<D.Dataset>[]) => {
+      return arr.map((elm, idx) => {
+        const d = distributions[idx];
+        if (!U.isDefined(d)) {
+          return undefined;
+        }
         return {
           ...elm,
-          data: distributions[idx].calc(newRange[0], newRange[1]),
+          data: d.calc(newRange[0], newRange[1]),
         };
       });
     });
