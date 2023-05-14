@@ -47,7 +47,7 @@ pub fn chi_squared(from: f64, to: f64, k: f64) -> Array {
 }
 
 #[wasm_bindgen]
-pub fn exp(from: f64, to: f64, lambda: f64) -> Array {
+pub fn exp_(from: f64, to: f64, lambda: f64) -> Array {
     let e = Exp::new(lambda).unwrap();
     let x = linspace(from, to, LENGTH);
     let xy = x
