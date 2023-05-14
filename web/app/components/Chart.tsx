@@ -1,4 +1,3 @@
-import { Scatter } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   LinearScale,
@@ -7,7 +6,11 @@ import {
   Colors,
   Legend,
 } from "chart.js";
+import { Scatter } from "react-chartjs-2";
+import { useRecoilValue } from "recoil";
+
 import * as D from "../src/distribution";
+import * as R from "../src/recoil";
 
 ChartJS.register(LinearScale, LineElement, PointElement, Colors, Legend);
 
@@ -35,6 +38,8 @@ export const options = {
   },
 };
 
-export default function Component({ datasets }: { datasets: D.Dataset[] }) {
+export default function Component() {
+  const datasets = useRecoilValue(R.datasets);
+
   return <Scatter datasetIdKey="idx" options={options} data={{ datasets }} />;
 }

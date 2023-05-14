@@ -1,5 +1,6 @@
-import GitHubButton from "react-github-btn";
 import Link from "next/link";
+import GitHubButton from "react-github-btn";
+
 import * as M from "../src/menu";
 
 export default function Component() {

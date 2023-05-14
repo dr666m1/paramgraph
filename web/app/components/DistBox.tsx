@@ -1,29 +1,17 @@
 import { useState, Dispatch, SetStateAction } from "react";
+import { useRecoilState } from "recoil";
+
 import DistDropdown from "../components/DistDropdown";
 import DistInput from "../components/DistInput";
+
 import * as D from "../src/distribution";
+import * as R from "../src/recoil";
 import * as U from "../src/utils";
 
-export default function Component({
-  idx,
-  datasetsSetter,
-  distributionsSetter,
-  distributions,
-  range,
-}: {
-  idx: number;
-  datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
-  distributionsSetter: Dispatch<SetStateAction<U.Optional<D.Distribution>[]>>;
-  distributions: U.Optional<D.Distribution>[];
-  range: [number, number];
-}) {
+export default function Component({ idx }: { idx: number }) {
+  const [distributions, setDistributions] = useRecoilState(R.dists);
   const del = () => {
-    datasetsSetter((arr) => {
-      const temp = [...arr];
-      temp[idx] = undefined;
-      return temp;
-    });
-    distributionsSetter((arr) => {
+    setDistributions((arr) => {
       const temp = [...arr];
       temp[idx] = undefined;
       return temp;
@@ -37,24 +25,11 @@ export default function Component({
       </div>
       <label className="label">distribution</label>
       {/* distributions[idx] always exists (guaranteed in index.tsx) */}
-      <DistDropdown
-        idx={idx}
-        datasetsSetter={datasetsSetter}
-        distribution={distributions[idx]!}
-        distributionsSetter={distributionsSetter}
-        range={range}
-      />
+      <DistDropdown idx={idx} />
       {Object.entries(distributions[idx]!.params).map(([k, v]) => (
         <div key={k}>
           <label className="label">{k}</label>
-          <DistInput
-            idx={idx}
-            datasetsSetter={datasetsSetter}
-            distribution={distributions[idx]!}
-            paramName={k}
-            distributionsSetter={distributionsSetter}
-            range={range}
-          />
+          <DistInput idx={idx} paramName={k} />
         </div>
       ))}
     </div>

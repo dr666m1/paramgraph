@@ -1,25 +1,21 @@
 import { useState, Dispatch, SetStateAction } from "react";
+import { useRecoilState } from "recoil";
+
 import * as D from "../src/distribution";
+import * as R from "../src/recoil";
 import * as U from "../src/utils";
 
-// TODO rm any
 export default function Component({
-  datasetsSetter,
   idx,
-  distribution,
-  distributionsSetter,
   paramName,
-  range,
 }: {
   idx: number;
-  datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
-  distributionsSetter: Dispatch<SetStateAction<U.Optional<D.Distribution>[]>>;
-  distribution: D.Distribution;
   paramName: string;
-  range: [number, number];
 }) {
+  const [distributions, setDistributions] = useRecoilState(R.dists);
+  const [range, _] = useRecoilState(R.range);
   const [text, setText] = useState<string>(
-    String(distribution.params[paramName])
+    String(distributions[idx]!.params[paramName])
   );
 
   const update = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,16 +28,11 @@ export default function Component({
       // TODO show error message
       return;
     }
-    const newDist = distribution.clone();
+    const newDist = distributions[idx]!.clone();
     newDist.params[paramName] = num;
-    distributionsSetter((arr) => {
+    setDistributions((arr) => {
       const temp = [...arr];
       temp[idx] = newDist;
-      return temp;
-    });
-    datasetsSetter((arr) => {
-      const temp = [...arr];
-      temp[idx] = newDist.toDataset(range[0], range[1], idx);
       return temp;
     });
   };
@@ -50,7 +41,7 @@ export default function Component({
     <input
       className="input is-small"
       type="text"
-      placeholder={String(D.init(distribution.name).params[paramName])}
+      placeholder={String(D.init(distributions[idx]!.name).params[paramName])}
       value={text}
       onChange={update}
     />
