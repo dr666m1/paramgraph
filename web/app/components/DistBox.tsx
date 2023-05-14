@@ -1,23 +1,29 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import DistDropdown from "../components/DistDropdown";
 import DistInput from "../components/DistInput";
 import * as D from "../src/distribution";
+import * as U from "../src/utils";
 
-// TODO rm any
 export default function Component({
   idx,
   datasetsSetter,
   distributionsSetter,
   distributions,
   range,
-}: any) {
+}: {
+  idx: number;
+  datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
+  distributionsSetter: Dispatch<SetStateAction<U.Optional<D.Distribution>[]>>;
+  distributions: U.Optional<D.Distribution>[];
+  range: [number, number];
+}) {
   const del = () => {
-    datasetsSetter((arr: (D.Distribution | undefined)[]) => {
+    datasetsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = undefined;
       return temp;
     });
-    distributionsSetter((arr: (D.Dataset | undefined)[]) => {
+    distributionsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = undefined;
       return temp;
@@ -30,20 +36,21 @@ export default function Component({
         <button className="delete is-small dist-delete" onClick={del}></button>
       </div>
       <label className="label">distribution</label>
+      {/* distributions[idx] always exists (guaranteed in index.tsx) */}
       <DistDropdown
         idx={idx}
         datasetsSetter={datasetsSetter}
-        distribution={distributions[idx]}
+        distribution={distributions[idx]!}
         distributionsSetter={distributionsSetter}
         range={range}
       />
-      {Object.entries(distributions[idx].params).map(([k, v]) => (
+      {Object.entries(distributions[idx]!.params).map(([k, v]) => (
         <div key={k}>
           <label className="label">{k}</label>
           <DistInput
             idx={idx}
             datasetsSetter={datasetsSetter}
-            distribution={distributions[idx]}
+            distribution={distributions[idx]!}
             paramName={k}
             distributionsSetter={distributionsSetter}
             range={range}

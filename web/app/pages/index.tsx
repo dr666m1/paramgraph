@@ -65,7 +65,7 @@ export default function Home() {
       >
         {/* using idx as key is not recommended but I preferred simplicity */}
         {datasets.map((d, idx) => {
-          if (typeof d !== "undefined") {
+          if (U.isDefined(d)) {
             return (
               <DistBox
                 key={idx}

@@ -1,30 +1,36 @@
-import { useState } from "react";
-import type * as React from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import * as D from "../src/distribution";
+import * as U from "../src/utils";
 
-// TODO rm any
 export default function Component({
   datasetsSetter,
   idx,
   distributionsSetter,
   distribution,
   range,
-}: any) {
-  const [selected, setSelected] = useState("unspecified");
+}: {
+  idx: number;
+  datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
+  distributionsSetter: Dispatch<SetStateAction<U.Optional<D.Distribution>[]>>;
+  distribution: D.Distribution;
+  range: [number, number];
+}) {
+  const [selected, setSelected] = useState<D.Name>("unspecified");
   const update = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const dist = D.init(e.target.value as D.Name);
+    const distName = e.target.value as D.Name;
+    const dist = D.init(distName);
     const data = dist.calc(range[0], range[1]);
-    datasetsSetter((arr: (D.Dataset | undefined)[]) => {
+    datasetsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = dist.toDataset(range[0], range[1], idx);
       return temp;
     });
-    distributionsSetter((arr: (D.Distribution | undefined)[]) => {
+    distributionsSetter((arr) => {
       const temp = [...arr];
       temp[idx] = dist;
       return temp;
     });
-    setSelected(e.target.value);
+    setSelected(distName);
   };
 
   return (

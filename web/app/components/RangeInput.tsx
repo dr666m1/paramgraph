@@ -57,7 +57,7 @@ export default function Component({
             <span style={{ whiteSpace: "nowrap" }}>
               {idx === 0 ? "from" : "to"}:{" "}
               <input
-                value={texts[0]}
+                value={texts[idx]}
                 className="input is-small is-inline"
                 onChange={update.bind(null, idx === 0)}
               />
