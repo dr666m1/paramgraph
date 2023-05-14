@@ -10,16 +10,20 @@ export const dists = atom<U.Optional<D.Distribution>[]>({
   default: [D.init("unspecified")],
 });
 
-export const datasets = selector({
+export const datasets = selector<D.Dataset[]>({
   key: "datasets",
   get: ({ get }) => {
     const ds = get(dists);
     const r = get(range);
-    let temp = ds.map((d, i) => {
+    let temp: U.Optional<D.Dataset>[] = ds.map((d, i) => {
       if (!U.isDefined(d)) {
         return undefined;
       }
-      return d.toDataset(r[0], r[1], i);
+      try {
+        return d.toDataset(r[0], r[1], i);
+      } catch {
+        return { label: "error", showLine: true, data: [], idx: i };
+      }
     });
     const datasets = temp.filter(U.isDefined);
     return datasets;

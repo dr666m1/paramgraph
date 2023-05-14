@@ -17,6 +17,7 @@ export default function Component({
   const [text, setText] = useState<string>(
     String(distributions[idx]!.params[paramName])
   );
+  const [errFlg, setErrFlg] = useState<boolean>(false);
 
   const update = (e: React.ChangeEvent<HTMLInputElement>) => {
     const str = e.target.value;
@@ -25,9 +26,10 @@ export default function Component({
     try {
       num = U.asNumber(str);
     } catch {
-      // TODO show error message
+      setErrFlg(true);
       return;
     }
+    setErrFlg(false);
     const newDist = distributions[idx]!.clone();
     newDist.params[paramName] = num;
     setDistributions((arr) => {
@@ -39,7 +41,7 @@ export default function Component({
 
   return (
     <input
-      className="input is-small"
+      className={`input is-small ${errFlg ? "is-danger" : ""}`}
       type="text"
       placeholder={String(D.init(distributions[idx]!.name).params[paramName])}
       value={text}

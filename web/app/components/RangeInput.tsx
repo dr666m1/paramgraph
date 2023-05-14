@@ -12,6 +12,7 @@ export default function Component() {
     String(range[0]),
     String(range[1]),
   ]);
+  const [errFlgs, setErrFlgs] = useState<[boolean, boolean]>([false, false]);
 
   const update = (isFrom: boolean, e: React.ChangeEvent<HTMLInputElement>) => {
     const str = e.target.value;
@@ -24,9 +25,18 @@ export default function Component() {
     try {
       num = U.asNumber(str);
     } catch {
-      // TODO show error message
+      setErrFlgs((flgs) => {
+        const temp = [...flgs];
+        temp[isFrom ? 0 : 1] = true;
+        return flgs;
+      });
       return;
     }
+    setErrFlgs((flgs) => {
+      const temp = [...flgs];
+      temp[isFrom ? 0 : 1] = false;
+      return flgs;
+    });
     const newRange: [number, number] = [range[0], range[1]];
     newRange[isFrom ? 0 : 1] = num;
     setRange(newRange);
@@ -41,7 +51,9 @@ export default function Component() {
               {idx === 0 ? "from" : "to"}:{" "}
               <input
                 value={texts[idx]}
-                className="input is-small is-inline"
+                className={`input is-small is-inline ${
+                  errFlgs[idx] ? "is-danger" : ""
+                }`}
                 onChange={update.bind(null, idx === 0)}
               />
             </span>
