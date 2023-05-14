@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
+import * as M from "../src/menu";
 
 export default function Component() {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -28,10 +29,7 @@ export default function Component() {
         className={`navbar-menu ${isActive ? "is-active" : ""}`}
       >
         <div className="navbar-start">
-          {[
-            { href: "/", text: "Home" },
-            { href: "/notices", text: "Third Party License Notices" },
-          ].map((page) => {
+          {M.pages.map((page) => {
             return (
               <Link
                 className="navbar-item"

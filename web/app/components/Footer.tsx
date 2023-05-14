@@ -1,5 +1,6 @@
 import GitHubButton from "react-github-btn";
 import Link from "next/link";
+import * as M from "../src/menu";
 
 export default function Component() {
   return (
@@ -11,16 +12,15 @@ export default function Component() {
         <div className="column">
           <strong>MENU</strong>
           <ul>
-            <li>
-              <Link href="/" className="has-text-dark">
-                HOME
-              </Link>
-            </li>
-            <li>
-              <Link href="notices" className="has-text-dark">
-                THIRD PARTY LICENSE NOTICES
-              </Link>
-            </li>
+            {M.pages.map((p) => {
+              return (
+                <li key={p.href}>
+                  <Link href={p.href} className="has-text-dark">
+                    {p.text}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div className="column">
