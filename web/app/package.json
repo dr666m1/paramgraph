@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "next dev",
-    "build": "zx ./scripts/license.mjs"
+    "build": "zx ./scripts/license.mjs",
+    "fmt": "prettier --ignore-path ../../.prettierignore --write ."
   },
   "dependencies": {
     "bulma": "^0.9.4",

@@ -8,6 +8,7 @@
     "build": "zx ./scripts/build.mjs && npm run build -w web/app deployments",
     "serve": "npm run serve -w web/app # if you see some errors, see https://github.com/vercel/next.js/issues/47121",
     "deploy": "npm run deploy -w deployments",
+    "fmt": "prettier --write .",
     "test": "prettier --check ."
   },
   "repository": {
