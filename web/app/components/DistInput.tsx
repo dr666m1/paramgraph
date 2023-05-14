@@ -4,14 +4,11 @@ import * as D from "../src/distribution";
 import * as U from "../src/utils";
 import * as R from "../src/recoil";
 
-// TODO rm any
 export default function Component({
-  datasetsSetter,
   idx,
   paramName,
 }: {
   idx: number;
-  datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
   paramName: string;
 }) {
   const [distributions, setDistributions] = useRecoilState(R.dists);
@@ -35,11 +32,6 @@ export default function Component({
     setDistributions((arr) => {
       const temp = [...arr];
       temp[idx] = newDist;
-      return temp;
-    });
-    datasetsSetter((arr) => {
-      const temp = [...arr];
-      temp[idx] = newDist.toDataset(range[0], range[1], idx);
       return temp;
     });
   };

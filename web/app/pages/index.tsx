@@ -11,9 +11,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 export default function Home() {
   const range = useRecoilValue(R.range);
   const [distributions, setDistributions] = useRecoilState(R.dists);
-  const [datasets, setDatasets] = useState<U.Optional<D.Dataset>[]>([
-    D.init("unspecified").toDataset(-3, 3, 0),
-  ]);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,7 +27,6 @@ export default function Home() {
     }
     try {
       const dists = D.fromBase64(id);
-      setDatasets(dists.map((d, idx) => d.toDataset(range[0], range[1], idx)));
       setDistributions(dists);
       router.replace({ query: {} });
     } catch (e) {
@@ -49,9 +45,9 @@ export default function Home() {
           className="is-fullwidth"
           style={{ position: "relative" }}
         >
-          <Chart datasets={datasets.filter(U.isDefined)} />
+          <Chart />
         </div>
-        <RangeInput datasetsSetter={setDatasets} />
+        <RangeInput />
       </div>
       <div
         id="right-column"
@@ -59,9 +55,9 @@ export default function Home() {
         style={{ overflow: "auto" }}
       >
         {/* using idx as key is not recommended but I preferred simplicity */}
-        {datasets.map((d, idx) => {
+        {distributions.map((d, idx) => {
           if (U.isDefined(d)) {
-            return <DistBox key={idx} idx={idx} datasetsSetter={setDatasets} />;
+            return <DistBox key={idx} idx={idx} />;
           }
         })}
         <div className="field is-grouped">
@@ -70,10 +66,6 @@ export default function Home() {
               className="button is-dark is-fullwidth"
               onClick={() => {
                 const default_ = D.init("unspecified");
-                setDatasets((d) => [
-                  ...d,
-                  default_.toDataset(range[0], range[1], datasets.length),
-                ]);
                 setDistributions((d) => [...d, default_]);
               }}
             >

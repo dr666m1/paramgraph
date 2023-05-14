@@ -6,20 +6,9 @@ import * as D from "../src/distribution";
 import * as U from "../src/utils";
 import * as R from "../src/recoil";
 
-export default function Component({
-  idx,
-  datasetsSetter,
-}: {
-  idx: number;
-  datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
-}) {
+export default function Component({ idx }: { idx: number }) {
   const [distributions, setDistributions] = useRecoilState(R.dists);
   const del = () => {
-    datasetsSetter((arr) => {
-      const temp = [...arr];
-      temp[idx] = undefined;
-      return temp;
-    });
     setDistributions((arr) => {
       const temp = [...arr];
       temp[idx] = undefined;
@@ -34,11 +23,11 @@ export default function Component({
       </div>
       <label className="label">distribution</label>
       {/* distributions[idx] always exists (guaranteed in index.tsx) */}
-      <DistDropdown idx={idx} datasetsSetter={datasetsSetter} />
+      <DistDropdown idx={idx} />
       {Object.entries(distributions[idx]!.params).map(([k, v]) => (
         <div key={k}>
           <label className="label">{k}</label>
-          <DistInput idx={idx} datasetsSetter={datasetsSetter} paramName={k} />
+          <DistInput idx={idx} paramName={k} />
         </div>
       ))}
     </div>

@@ -8,6 +8,8 @@ import {
   Legend,
 } from "chart.js";
 import * as D from "../src/distribution";
+import * as R from "../src/recoil";
+import { useRecoilValue } from "recoil";
 
 ChartJS.register(LinearScale, LineElement, PointElement, Colors, Legend);
 
@@ -35,6 +37,8 @@ export const options = {
   },
 };
 
-export default function Component({ datasets }: { datasets: D.Dataset[] }) {
+export default function Component() {
+  const datasets = useRecoilValue(R.datasets);
+
   return <Scatter datasetIdKey="idx" options={options} data={{ datasets }} />;
 }
