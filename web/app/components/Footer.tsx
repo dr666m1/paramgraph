@@ -29,14 +29,14 @@ export default function Component() {
           </p>
           <p>
             <GitHubButton
-              href="https://github.com/dr666m1/paramgraph"
+              href="https://github.com/kitta65/paramgraph"
               data-size="large"
               data-icon="star"
             >
               Star
             </GitHubButton>{" "}
             <GitHubButton
-              href="https://github.com/dr666m1/paramgraph/issues"
+              href="https://github.com/kitta65/paramgraph/issues"
               data-size="large"
               data-icon="issue-opened"
             >
