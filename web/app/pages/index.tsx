@@ -6,13 +6,11 @@ import * as D from "../src/distribution";
 import * as U from "../src/utils";
 import * as R from "../src/recoil";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function Home() {
-  const [distributions, setDistributions] = useState<
-    U.Optional<D.Distribution>[]
-  >([D.init("unspecified")]);
-  const [range, _] = useRecoilState(R.range);
+  const range = useRecoilValue(R.range);
+  const [distributions, setDistributions] = useRecoilState(R.dists);
   const [datasets, setDatasets] = useState<U.Optional<D.Dataset>[]>([
     D.init("unspecified").toDataset(-3, 3, 0),
   ]);
@@ -53,11 +51,7 @@ export default function Home() {
         >
           <Chart datasets={datasets.filter(U.isDefined)} />
         </div>
-        <RangeInput
-          datasetsSetter={setDatasets}
-          distributions={distributions}
-        />
-        {JSON.stringify(range)} // TODO rm
+        <RangeInput datasetsSetter={setDatasets} />
       </div>
       <div
         id="right-column"
@@ -67,15 +61,7 @@ export default function Home() {
         {/* using idx as key is not recommended but I preferred simplicity */}
         {datasets.map((d, idx) => {
           if (U.isDefined(d)) {
-            return (
-              <DistBox
-                key={idx}
-                idx={idx}
-                datasetsSetter={setDatasets}
-                distributionsSetter={setDistributions}
-                distributions={distributions}
-              />
-            );
+            return <DistBox key={idx} idx={idx} datasetsSetter={setDatasets} />;
           }
         })}
         <div className="field is-grouped">

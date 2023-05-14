@@ -8,13 +8,12 @@ import * as U from "../src/utils";
 import * as R from "../src/recoil";
 
 export default function Component({
-  distributions,
   datasetsSetter,
 }: {
-  distributions: U.Optional<D.Distribution>[];
   datasetsSetter: Dispatch<SetStateAction<U.Optional<D.Dataset>[]>>;
 }) {
   const [range, setRange] = useRecoilState(R.range);
+  const distributions = useRecoilState(R.dists)[0];
   const [texts, setTexts] = useState<[string, string]>([
     String(range[0]),
     String(range[1]),
