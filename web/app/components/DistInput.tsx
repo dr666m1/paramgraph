@@ -1,11 +1,6 @@
 import { useState } from "react";
-import {
-  defaultDistribution,
-  distributions,
-  getDistByName,
-} from "../src/distribution";
-
 import type * as React from "react";
+import * as D from "../src/distribution";
 
 // TODO rm any
 export default function Component({
@@ -16,7 +11,7 @@ export default function Component({
   paramName,
   range,
 }: any) {
-  const [text, setText] = useState(distribution.parameters[paramName]);
+  const [text, setText] = useState(distribution.params[paramName]);
 
   const update = (e: React.ChangeEvent<HTMLInputElement>) => {
     const str = e.target.value;
@@ -34,21 +29,19 @@ export default function Component({
       return; // if str === "-"
     }
 
-    let newDist = { ...distribution };
-    newDist.parameters[paramName] = num;
-    // TODO rm any
-    distributionsSetter((arr: any) => {
+    const newDist = distribution.clone();
+    newDist.params[paramName] = num;
+    distributionsSetter((arr: D.Distribution[]) => {
       const temp = [...arr];
       temp[idx] = newDist;
       return temp;
     });
-    // TODO rm any
-    datasetsSetter((arr: any) => {
+    datasetsSetter((arr: D.Dataset[]) => {
       const temp = [...arr];
       temp[idx] = {
         ...arr[idx],
-        label: newDist.label(newDist.parameters),
-        data: newDist.func(range[0], range[1], newDist.parameters),
+        label: newDist.label(newDist.params),
+        data: newDist.calc(range[0], range[1]),
       };
       return temp;
     });
@@ -59,11 +52,12 @@ export default function Component({
       className="input is-small"
       type="text"
       placeholder={
-        /* TODO rm any */
-        (getDistByName(distribution.name) as any).parameters[paramName]
+        Object.entries(D.init(distribution.name).params)
+          .filter(([k, v]) => k === paramName)
+          .map(([k, v]) => String(v))[0]
       }
       value={text}
       onChange={update}
-    ></input>
+    />
   );
 }

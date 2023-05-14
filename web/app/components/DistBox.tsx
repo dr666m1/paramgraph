@@ -1,11 +1,7 @@
 import { useState } from "react";
-import {
-  defaultDistribution,
-  distributions,
-  getDistByName,
-} from "../src/distribution";
 import DistDropdown from "../components/DistDropdown";
 import DistInput from "../components/DistInput";
+import * as D from "../src/distribution";
 
 // TODO rm any
 export default function Component({
@@ -16,14 +12,12 @@ export default function Component({
   range,
 }: any) {
   const del = () => {
-    // TODO rm any
-    datasetsSetter((arr: any) => {
+    datasetsSetter((arr: (D.Distribution | undefined)[]) => {
       const temp = [...arr];
       temp[idx] = undefined;
       return temp;
     });
-    // TODO rm any
-    distributionsSetter((arr: any) => {
+    distributionsSetter((arr: (D.Dataset | undefined)[]) => {
       const temp = [...arr];
       temp[idx] = undefined;
       return temp;
@@ -43,7 +37,7 @@ export default function Component({
         distributionsSetter={distributionsSetter}
         range={range}
       />
-      {Object.entries(distributions[idx].parameters).map(([k, v]) => (
+      {Object.entries(distributions[idx].params).map(([k, v]) => (
         <div key={k}>
           <label className="label">{k}</label>
           <DistInput

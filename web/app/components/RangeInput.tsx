@@ -38,11 +38,7 @@ export default function Component({
       return arr.map((elm: any, idx: number) => {
         return {
           ...elm,
-          data: distributions[idx].func(
-            newRange[0],
-            newRange[1],
-            distributions[idx].parameters
-          ),
+          data: distributions[idx].calc(newRange[0], newRange[1]),
         };
       });
     });

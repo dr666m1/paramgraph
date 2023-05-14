@@ -1,11 +1,6 @@
 import { useState } from "react";
-import {
-  defaultDistribution,
-  distributions,
-  getDistByName,
-} from "../src/distribution";
-
 import type * as React from "react";
+import * as D from "../src/distribution";
 
 // TODO rm any
 export default function Component({
@@ -15,33 +10,28 @@ export default function Component({
   distribution,
   range,
 }: any) {
+  const [selected, setSelected] = useState("unspecified")
   const update = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // TODO rm any
-    const dist: any = getDistByName(e.target.value);
-    const data = dist.func(range[0], range[1], dist.parameters);
-    // TODO rm any
-    datasetsSetter((arr: any) => {
+    const dist = D.init(e.target.value as D.Name);
+    const data = dist.calc(range[0], range[1]);
+    datasetsSetter((arr: (D.Dataset | undefined)[]) => {
       const temp = [...arr];
-      temp[idx] = {
-        ...arr[idx],
-        label: dist.label(dist.parameters),
-        data,
-      };
+      temp[idx] = dist.toDataset(range[0], range[1], idx);
       return temp;
     });
-    // TODO rm any
-    distributionsSetter((arr: any) => {
+    distributionsSetter((arr: (D.Distribution | undefined)[]) => {
       const temp = [...arr];
       temp[idx] = dist;
       return temp;
     });
+    setSelected(e.target.value)
   };
 
   return (
     <div className="select">
-      <select value={distribution.name} onChange={update}>
-        {distributions.map((d, idx) => (
-          <option key={idx}>{d.name}</option>
+      <select value={selected} onChange={update}>
+        {D.names.map((n, idx) => (
+          <option key={idx}>{n}</option>
         ))}
       </select>
     </div>

@@ -2,23 +2,17 @@ import { useState, useEffect } from "react";
 import Chart from "../components/Chart";
 import DistBox from "../components/DistBox";
 import RangeInput from "../components/RangeInput";
-import { defaultDistribution, getDistByName } from "../src/distribution";
+import * as D from "../src/distribution";
 import { useRouter } from "next/router";
-import { Base64, decode } from "js-base64";
-
-const newDefaultDataset = (idx: number) => {
-  return {
-    label: defaultDistribution.name,
-    showLine: true,
-    data: [],
-    idx, // used by chart.js
-  };
-};
 
 export default function Home() {
-  const [datasets, setDatasets] = useState([newDefaultDataset(0)]);
-  const [distributions, setDistributions] = useState([defaultDistribution]);
+  const [distributions, setDistributions] = useState([
+    D.init("unspecified"),
+  ]);
   const [range, setRange] = useState([-3, 3]);
+  const [datasets, setDatasets] = useState([
+    D.init("unspecified").toDataset(-3, 3, 0),
+  ]);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,23 +24,13 @@ export default function Home() {
     if (Array.isArray(id)) {
       id = id[0];
     }
-    console.log(id);
     if (id) {
       try {
-        const json = Base64.decode(id);
-        const dists = JSON.parse(json);
+        const dists = D.fromBase64(id);
         setDatasets(
-          // TODO rm any
-          dists.map((d: any, idx: number) => {
-            d.label = getDistByName(d.name).label;
-            d.func = getDistByName(d.name).func;
-            return {
-              label: d.label(d.parameters),
-              showLine: true,
-              data: d.func(-3, 3, d.parameters),
-              idx,
-            };
-          })
+          dists.map((d: D.Distribution, idx: number) =>
+            d.toDataset(range[0], range[1], idx)
+          )
         );
         setDistributions(dists);
         router.replace({ query: {} });
@@ -102,8 +86,12 @@ export default function Home() {
             <button
               className="button is-dark is-fullwidth"
               onClick={() => {
-                setDatasets((d) => [...d, newDefaultDataset(datasets.length)]);
-                setDistributions((d) => [...d, defaultDistribution]);
+                const default_ = D.init("unspecified");
+                setDatasets((d) => [
+                  ...d,
+                  default_.toDataset(range[0], range[1], datasets.length),
+                ]);
+                setDistributions((d) => [...d, default_]);
               }}
             >
               add distribution
@@ -114,10 +102,8 @@ export default function Home() {
               id="share"
               className="button"
               onClick={async () => {
-                const json = JSON.stringify(
-                  distributions.filter((d) => typeof d !== "undefined")
-                );
-                const b64 = Base64.encodeURL(json);
+                const ds = distributions.filter((d) => typeof d !== "undefined")
+                const b64  = D.toBase64(ds)
                 const url = `${document.URL}?id=${b64}`;
                 await navigator.clipboard.writeText(url);
                 alert("copied!");
