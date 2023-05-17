@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
 
 import Chart from "../components/Chart";
 import DistBox from "../components/DistBox";
@@ -11,7 +11,6 @@ import * as R from "../src/recoil";
 import * as U from "../src/utils";
 
 export default function Home() {
-  const range = useRecoilValue(R.range);
   const [distributions, setDistributions] = useRecoilState(R.dists);
   const router = useRouter();
 
@@ -20,7 +19,7 @@ export default function Home() {
     document.getElementById("right-column")!.style.maxHeight = `${height}px`;
 
     // https://hkc7180.medium.com/how-handle-query-in-nextjs-router-62abb1927c1d
-    let id = router.query.id;
+    let id = router.query["id"];
     if (Array.isArray(id)) {
       id = id[0];
     }
