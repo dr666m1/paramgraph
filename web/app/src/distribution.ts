@@ -12,15 +12,15 @@ export type Dataset = {
   idx: number; // used by chart.js
 };
 
-export abstract class Distribution {
-  params: Params;
-  constructor(params: Params) {
+export abstract class Distribution<P extends Params> {
+  params: P;
+  constructor(params: P) {
     this.params = params;
   }
   abstract name: Name;
   abstract label(): string;
   abstract calc(from: number, to: number): number[];
-  clone(): Distribution {
+  clone(): Distribution<Params> {
     const d = init(this.name);
     for (const [k, v] of Object.entries(this.params)) {
       d.params[k] = v;
@@ -37,7 +37,7 @@ export abstract class Distribution {
   }
 }
 
-class Unspecified extends Distribution {
+class Unspecified extends Distribution<Params> {
   name: Name = "unspecified";
   static init(params?: Params) {
     return new Unspecified({});
@@ -50,10 +50,14 @@ class Unspecified extends Distribution {
   }
 }
 
-class Normal extends Distribution {
+type NormalParams = Params & {
+  mu: number;
+  sigma: number;
+};
+class Normal extends Distribution<NormalParams> {
   name: Name = "normal";
   static init(params?: Params) {
-    const p: Params = { mu: 0, sigma: 1 };
+    const p: NormalParams = { mu: 0, sigma: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -69,7 +73,7 @@ class Normal extends Distribution {
   }
 }
 
-export function init(name: Name, params?: Params): Distribution {
+export function init(name: Name, params?: Params): Distribution<Params> {
   switch (name) {
     case "unspecified":
       return Unspecified.init(params);
@@ -82,7 +86,7 @@ type ToBeShared = {
   params: Params;
   name: Name;
 };
-export function toBase64(dists: Distribution[]): string {
+export function toBase64(dists: Distribution<Params>[]): string {
   const arr: ToBeShared[] = dists.map((d) => {
     return { params: d.params, name: d.name };
   });
@@ -91,7 +95,7 @@ export function toBase64(dists: Distribution[]): string {
   return b64;
 }
 
-export function fromBase64(b64: string): Distribution[] {
+export function fromBase64(b64: string): Distribution<Params>[] {
   const json = Base64.decode(b64);
   const arr: ToBeShared[] = JSON.parse(json);
   return arr.map((elm) => init(elm.name, elm.params));
