@@ -12,7 +12,7 @@ import {
   weibull,
 } from "stats";
 
-const LEN = 200;
+const LEN = 300;
 type Point = {
   x: number;
   y: number;
@@ -61,7 +61,7 @@ export abstract class Distribution<P extends Params = Params> {
     return {
       label: this.label(),
       showLine: true,
-      data: this.calc(from, to),
+      data: this.calc(from, to).filter((p) => 0 < p.y),
       idx,
     };
   }
