@@ -9,9 +9,14 @@ import {
   log_normal,
   normal,
   students_t,
-  // uniform,
   weibull,
 } from "stats";
+
+const LEN = 200;
+type Point = {
+  x: number;
+  y: number;
+};
 
 export const names = [
   "unspecified",
@@ -24,7 +29,7 @@ export const names = [
   "log_normal",
   "normal",
   "students_t",
-  // "uniform",
+  "uniform",
   "weibull",
 ] as const;
 export type Name = (typeof names)[number];
@@ -33,7 +38,7 @@ export type Params = { [key: string]: number };
 export type Dataset = {
   label: string;
   showLine: true;
-  data: number[];
+  data: Point[];
   idx: number; // used by chart.js
 };
 
@@ -44,7 +49,7 @@ export abstract class Distribution<P extends Params = Params> {
   }
   abstract name: Name;
   abstract label(): string;
-  abstract calc(from: number, to: number): number[];
+  abstract calc(from: number, to: number): Point[];
   clone(): Distribution {
     const d = init(this.name);
     for (const [k, v] of Object.entries(this.params)) {
@@ -76,13 +81,13 @@ class Unspecified extends Distribution {
 }
 
 type BetaParams = Params & {
-  α: number;
-  β: number;
+  shape_a: number;
+  shape_b: number;
 };
 class Beta extends Distribution<BetaParams> {
   name: Name = "beta";
   static init(params?: Params) {
-    const p: BetaParams = { α: 1, β: 1 };
+    const p: BetaParams = { shape_a: 1, shape_b: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -91,21 +96,21 @@ class Beta extends Distribution<BetaParams> {
     return new Beta(p);
   }
   calc(from: number, to: number) {
-    return beta(from, to, this.params.α, this.params.β);
+    return beta(from, to, LEN, this.params.shape_a, this.params.shape_b);
   }
   label() {
-    return `B(${this.params.α}, ${this.params.β})`;
+    return `Beta(${this.params.shape_a}, ${this.params.shape_b})`;
   }
 }
 
 type CauchyParams = Params & {
-  x0: number;
-  γ: number;
+  location: number;
+  scale: number;
 };
 class Cauchy extends Distribution<CauchyParams> {
   name: Name = "cauchy";
   static init(params?: Params) {
-    const p: CauchyParams = { x0: 0, γ: 1 };
+    const p: CauchyParams = { location: 0, scale: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -114,20 +119,20 @@ class Cauchy extends Distribution<CauchyParams> {
     return new Cauchy(p);
   }
   calc(from: number, to: number) {
-    return cauchy(from, to, this.params.x0, this.params.γ);
+    return cauchy(from, to, LEN, this.params.location, this.params.scale);
   }
   label() {
-    return `Cauchy(${this.params.x0}, ${this.params.γ})`;
+    return `Cauchy(${this.params.location}, ${this.params.scale})`;
   }
 }
 
 type ChiSquaredParams = Params & {
-  k: number;
+  freedom: number;
 };
 class ChiSquared extends Distribution<ChiSquaredParams> {
   name: Name = "chi_squared";
   static init(params?: Params) {
-    const p: ChiSquaredParams = { k: 1 };
+    const p: ChiSquaredParams = { freedom: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -136,20 +141,20 @@ class ChiSquared extends Distribution<ChiSquaredParams> {
     return new ChiSquared(p);
   }
   calc(from: number, to: number) {
-    return chi_squared(from, to, this.params.k);
+    return chi_squared(from, to, LEN, this.params.freedom);
   }
   label() {
-    return `ChiSquared(${this.params.k})`;
+    return `ChiSquared(${this.params.freedom})`;
   }
 }
 
 type ExpParams = Params & {
-  λ: number;
+  rate: number;
 };
 class Exp extends Distribution<ExpParams> {
   name: Name = "exp";
   static init(params?: Params) {
-    const p: ExpParams = { λ: 1 };
+    const p: ExpParams = { rate: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -158,21 +163,21 @@ class Exp extends Distribution<ExpParams> {
     return new Exp(p);
   }
   calc(from: number, to: number) {
-    return exp_(from, to, this.params.λ);
+    return exp_(from, to, LEN, this.params.rate);
   }
   label() {
-    return `Exp(${this.params.λ})`;
+    return `Exp(${this.params.rate})`;
   }
 }
 
 type GammaParams = Params & {
-  α: number;
-  β: number;
+  shape: number;
+  rate: number;
 };
 class Gamma extends Distribution<GammaParams> {
   name: Name = "gamma";
   static init(params?: Params) {
-    const p: GammaParams = { α: 1, β: 1 };
+    const p: GammaParams = { shape: 1, rate: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -181,17 +186,17 @@ class Gamma extends Distribution<GammaParams> {
     return new Gamma(p);
   }
   calc(from: number, to: number) {
-    return gamma(from, to, this.params.α, this.params.β);
+    return gamma(from, to, LEN, this.params.shape, this.params.rate);
   }
   label() {
-    return `Gamma(${this.params.α}, ${this.params.β})`;
+    return `Gamma(${this.params.shape}, ${this.params.rate})`;
   }
 }
 
 class InverseGamma extends Distribution<GammaParams> {
   name: Name = "inverse_gamma";
   static init(params?: Params) {
-    const p: GammaParams = { α: 1, β: 1 };
+    const p: GammaParams = { shape: 1, rate: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -200,17 +205,17 @@ class InverseGamma extends Distribution<GammaParams> {
     return new InverseGamma(p);
   }
   calc(from: number, to: number) {
-    return inverse_gamma(from, to, this.params.α, this.params.β);
+    return inverse_gamma(from, to, LEN, this.params.shape, this.params.rate);
   }
   label() {
-    return `InverseGamma(${this.params.α}, ${this.params.β})`;
+    return `InverseGamma(${this.params.shape}, ${this.params.rate})`;
   }
 }
 
 class LogNormal extends Distribution<NormalParams> {
   name: Name = "log_normal";
   static init(params?: Params) {
-    const p: NormalParams = { μ: 0, σ: 1 };
+    const p: NormalParams = { location: 0, scale: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -219,21 +224,21 @@ class LogNormal extends Distribution<NormalParams> {
     return new LogNormal(p);
   }
   calc(from: number, to: number) {
-    return log_normal(from, to, this.params.μ, this.params.σ);
+    return log_normal(from, to, LEN, this.params.location, this.params.scale);
   }
   label() {
-    return `LogNormal(${this.params.μ}, ${this.params.σ})`;
+    return `LogNormal(${this.params.location}, ${this.params.scale})`;
   }
 }
 
 type NormalParams = Params & {
-  μ: number;
-  σ: number;
+  location: number;
+  scale: number;
 };
 class Normal extends Distribution<NormalParams> {
   name: Name = "normal";
   static init(params?: Params) {
-    const p: NormalParams = { μ: 0, σ: 1 };
+    const p: NormalParams = { location: 0, scale: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -242,20 +247,20 @@ class Normal extends Distribution<NormalParams> {
     return new Normal(p);
   }
   calc(from: number, to: number) {
-    return normal(from, to, this.params.μ, this.params.σ);
+    return normal(from, to, LEN, this.params.location, this.params.scale);
   }
   label() {
-    return `N(${this.params.μ}, ${this.params.σ})`;
+    return `Normal(${this.params.location}, ${this.params.scale})`;
   }
 }
 
 type StudentsTParams = Params & {
-  k: number;
+  freedom: number;
 };
 class StudentsT extends Distribution<StudentsTParams> {
   name: Name = "students_t";
   static init(params?: Params) {
-    const p: StudentsTParams = { k: 1 };
+    const p: StudentsTParams = { freedom: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -264,44 +269,68 @@ class StudentsT extends Distribution<StudentsTParams> {
     return new StudentsT(p);
   }
   calc(from: number, to: number) {
-    return students_t(from, to, this.params.k);
+    return students_t(from, to, LEN, this.params.freedom);
   }
   label() {
-    return `StudentsT(${this.params.k})`;
+    return `StudentsT(${this.params.freedom})`;
   }
 }
 
-// type UniformParams = Params & {
-//   a: number;
-//   b: number;
-// };
-// class Uniform extends Distribution<UniformParams> {
-//   name: Name = "uniform";
-//   static init(params?: Params) {
-//     const p: UniformParams = { a: 0, b:1 };
-//     if (params) {
-//       for (const [k, v] of Object.entries(params)) {
-//         p[k] = v;
-//       }
-//     }
-//     return new Uniform(p);
-//   }
-//   calc(from: number, to: number) {
-//     return uniform(this.params.a, this.params.b);
-//   }
-//   label() {
-//     return `Uniform(${this.params.k})`;
-//   }
-// }
+type UniformParams = Params & {
+  min: number;
+  max: number;
+};
+class Uniform extends Distribution<UniformParams> {
+  name: Name = "uniform";
+  static init(params?: Params) {
+    const p: UniformParams = { min: 0, max: 1 };
+    if (params) {
+      for (const [k, v] of Object.entries(params)) {
+        p[k] = v;
+      }
+    }
+    return new Uniform(p);
+  }
+  calc(from: number, to: number) {
+    const diff = this.params.max - this.params.min;
+    if (diff <= 0) {
+      throw new Error("invalid parameter");
+    }
+    const y = 1 / diff;
+    if (this.params.max < from || to < this.params.min) {
+      return [];
+    } else if (from < this.params.min && this.params.max < to) {
+      return [
+        { x: this.params.min, y },
+        { x: this.params.max, y },
+      ];
+    } else if (this.params.min <= from) {
+      return [
+        { x: from, y },
+        { x: this.params.max, y },
+      ];
+    } else if (to <= this.params.max) {
+      return [
+        { x: this.params.min, y },
+        { x: to, y },
+      ];
+    } else {
+      throw new Error("somethig went wrong");
+    }
+  }
+  label() {
+    return `Uniform(${this.params.min}, ${this.params.max})`;
+  }
+}
 
 type WeibullParams = Params & {
-  a: number;
-  b: number;
+  shape: number;
+  scale: number;
 };
 class Weibull extends Distribution<WeibullParams> {
   name: Name = "students_t";
   static init(params?: Params) {
-    const p: WeibullParams = { a: 1, b: 1 };
+    const p: WeibullParams = { shape: 1, scale: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         p[k] = v;
@@ -310,10 +339,10 @@ class Weibull extends Distribution<WeibullParams> {
     return new Weibull(p);
   }
   calc(from: number, to: number) {
-    return weibull(from, to, this.params.a, this.params.b);
+    return weibull(from, to, LEN, this.params.shape, this.params.scale);
   }
   label() {
-    return `Weibull(${this.params.a}, ${this.params.b})`;
+    return `Weibull(${this.params.shape}, ${this.params.scale})`;
   }
 }
 
@@ -342,6 +371,8 @@ export function init(name: Name, params?: Params): Distribution {
       return StudentsT.init(params);
     case "weibull":
       return Weibull.init(params);
+    case "uniform":
+      return Uniform.init(params);
   }
 }
 
