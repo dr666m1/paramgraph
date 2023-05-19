@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 
 import * as D from "../src/distribution";
@@ -13,7 +13,6 @@ export default function Component({
   paramName: string;
 }) {
   const [distributions, setDistributions] = useRecoilState(R.dists);
-  const [range, _] = useRecoilState(R.range);
   const [text, setText] = useState<string>(
     String(distributions[idx]!.params[paramName])
   );

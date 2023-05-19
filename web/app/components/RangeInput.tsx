@@ -1,13 +1,11 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 
-import * as D from "../src/distribution";
 import * as R from "../src/recoil";
 import * as U from "../src/utils";
 
 export default function Component() {
   const [range, setRange] = useRecoilState(R.range);
-  const distributions = useRecoilState(R.dists)[0];
   const [texts, setTexts] = useState<[string, string]>([
     String(range[0]),
     String(range[1]),
@@ -44,7 +42,7 @@ export default function Component() {
 
   return (
     <div className="has-text-centered">
-      {range.map((num, idx) => {
+      {range.map((_, idx) => {
         return (
           <div key={idx} className="is-inline">
             <span style={{ whiteSpace: "nowrap" }}>

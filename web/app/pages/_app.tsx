@@ -3,8 +3,6 @@ import "../styles/globals.css";
 
 import type { AppProps } from "next/app";
 import { Inter } from "next/font/google";
-import Link from "next/link";
-import GitHubButton from "react-github-btn";
 import { RecoilRoot } from "recoil";
 
 import NavBar from "../components/NavBar";

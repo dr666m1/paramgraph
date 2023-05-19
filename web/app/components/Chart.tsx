@@ -9,7 +9,6 @@ import {
 import { Scatter } from "react-chartjs-2";
 import { useRecoilValue } from "recoil";
 
-import * as D from "../src/distribution";
 import * as R from "../src/recoil";
 
 ChartJS.register(LinearScale, LineElement, PointElement, Colors, Legend);

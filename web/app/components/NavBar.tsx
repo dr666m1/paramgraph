@@ -16,7 +16,7 @@ export default function Component() {
           aria-label="menu"
           aria-expanded="false"
           data-target="navBarMenu"
-          onClick={(e) => {
+          onClick={(_) => {
             setIsActive((isActive) => !isActive);
           }}
         >
@@ -35,7 +35,7 @@ export default function Component() {
               <Link
                 className="navbar-item"
                 href={page.href}
-                onClick={(e) => {
+                onClick={(_) => {
                   setIsActive((isActive) => !isActive);
                 }}
                 key={page.href}
