@@ -26,7 +26,7 @@ class Paramgraph extends cdk.Stack {
       destinationBucket: bucket,
     });
 
-    const subDomain = "p2g.dr666m1.net";
+    const subDomain = "p2g.kitta65.net";
     // NOTE add NS record to dr666m1.net host zone manually
     const myHostedZone = new route53.PublicHostedZone(this, "HostZone", {
       zoneName: subDomain,
