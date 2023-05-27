@@ -6,7 +6,7 @@ import DistInput from "../components/DistInput";
 import * as R from "../src/recoil";
 
 export default function Component({ idx }: { idx: number }) {
-  const [distributions, setDistributions] = useRecoilState(R.dists);
+  const [distributions, setDistributions] = useRecoilState(R.distributions);
   const del = () => {
     setDistributions((arr) => {
       const temp = [...arr];
@@ -23,7 +23,7 @@ export default function Component({ idx }: { idx: number }) {
       <label className="label">distribution</label>
       {/* distributions[idx] always exists (guaranteed in index.tsx) */}
       <DistDropdown idx={idx} />
-      {Object.entries(distributions[idx]!.params).map(([k, _]) => (
+      {Object.keys(distributions[idx]!.params).map((k) => (
         <div key={k}>
           <label className="label">{k}</label>
           <DistInput idx={idx} paramName={k} />

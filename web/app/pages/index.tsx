@@ -6,12 +6,11 @@ import Chart from "../components/Chart";
 import DistBox from "../components/DistBox";
 import RangeInput from "../components/RangeInput";
 
-import * as D from "../src/distribution";
 import * as R from "../src/recoil";
 import * as U from "../src/utils";
 
 export default function Home() {
-  const [distributions, setDistributions] = useRecoilState(R.dists);
+  const [distributions, setDistributions] = useRecoilState(R.distributions);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,15 +26,12 @@ export default function Home() {
       return;
     }
     try {
-      const dists = D.fromBase64(id);
-      setDistributions(dists);
+      setDistributions(U.fromBase64(id));
       router.replace({ query: {} });
     } catch (e) {
       alert("invalid query string");
     }
-    console.log(
-      "if you see this message thousands of times, something is going wrong"
-    );
+    console.log("initialized!");
   }, [router.query]);
 
   return (
@@ -66,8 +62,7 @@ export default function Home() {
             <button
               className="button is-dark is-fullwidth"
               onClick={() => {
-                const default_ = D.init("unspecified");
-                setDistributions((d) => [...d, default_]);
+                setDistributions((d) => [...d, R.defaultDist]);
               }}
             >
               add distribution
@@ -79,10 +74,10 @@ export default function Home() {
               className="button"
               onClick={async () => {
                 const ds = distributions.filter(U.isDefined);
-                const b64 = D.toBase64(ds);
+                const b64 = U.toBase64(ds);
                 const url = `${document.URL}?id=${b64}`;
                 await navigator.clipboard.writeText(url);
-                alert("copied!");
+                alert("copied into clipboard!");
               }}
             >
               share

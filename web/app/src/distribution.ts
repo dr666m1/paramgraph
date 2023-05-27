@@ -1,4 +1,3 @@
-import { Base64 } from "js-base64";
 import {
   beta,
   cauchy,
@@ -11,45 +10,18 @@ import {
   students_t,
   weibull,
 } from "stats";
+import * as T from "./types";
 
 const LEN = 300;
-type Point = {
-  x: number;
-  y: number;
-};
 
-export const names = [
-  "unspecified",
-  "beta",
-  "cauchy",
-  "chi_squared",
-  "exp",
-  "gamma",
-  "inverse_gamma",
-  "log_normal",
-  "normal",
-  "students_t",
-  "uniform",
-  "weibull",
-] as const;
-export type Name = (typeof names)[number];
-export type Params = { [key: string]: number };
-
-export type Dataset = {
-  label: string;
-  showLine: true;
-  data: Point[];
-  idx: number; // used by chart.js
-};
-
-export abstract class Distribution<P extends Params = Params> {
+abstract class Distribution<P extends T.Params = T.Params> {
   params: P;
   constructor(params: P) {
     this.params = params;
   }
-  abstract name: Name;
+  abstract name: T.Name;
   abstract label(): string;
-  abstract calc(from: number, to: number): Point[];
+  abstract calc(from: number, to: number): T.Point[];
   clone(): Distribution {
     const d = init(this.name);
     for (const [k, v] of Object.entries(this.params)) {
@@ -57,7 +29,7 @@ export abstract class Distribution<P extends Params = Params> {
     }
     return d;
   }
-  toDataset(from: number, to: number, idx: number): Dataset {
+  toDataset(from: number, to: number, idx: number): T.Dataset {
     return {
       label: this.label(),
       showLine: true,
@@ -68,25 +40,25 @@ export abstract class Distribution<P extends Params = Params> {
 }
 
 class Unspecified extends Distribution {
-  name: Name = "unspecified";
-  static init(_params?: Params) {
+  name: T.Name = "Unspecified";
+  static init(_params?: T.Params) {
     return new Unspecified({});
   }
   calc(_from: number, _to: number) {
     return [];
   }
   label() {
-    return "unspecified";
+    return "Unspecified";
   }
 }
 
-type BetaParams = Params & {
+type BetaParams = T.Params & {
   shape_a: number;
   shape_b: number;
 };
 class Beta extends Distribution<BetaParams> {
-  name: Name = "beta";
-  static init(params?: Params) {
+  name: T.Name = "Beta";
+  static init(params?: T.Params) {
     const p: BetaParams = { shape_a: 1, shape_b: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -103,13 +75,13 @@ class Beta extends Distribution<BetaParams> {
   }
 }
 
-type CauchyParams = Params & {
+type CauchyParams = T.Params & {
   location: number;
   scale: number;
 };
 class Cauchy extends Distribution<CauchyParams> {
-  name: Name = "cauchy";
-  static init(params?: Params) {
+  name: T.Name = "Cauchy";
+  static init(params?: T.Params) {
     const p: CauchyParams = { location: 0, scale: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -126,12 +98,12 @@ class Cauchy extends Distribution<CauchyParams> {
   }
 }
 
-type ChiSquaredParams = Params & {
+type ChiSquaredParams = T.Params & {
   freedom: number;
 };
 class ChiSquared extends Distribution<ChiSquaredParams> {
-  name: Name = "chi_squared";
-  static init(params?: Params) {
+  name: T.Name = "ChiSquared";
+  static init(params?: T.Params) {
     const p: ChiSquaredParams = { freedom: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -148,12 +120,12 @@ class ChiSquared extends Distribution<ChiSquaredParams> {
   }
 }
 
-type ExpParams = Params & {
+type ExpParams = T.Params & {
   rate: number;
 };
 class Exp extends Distribution<ExpParams> {
-  name: Name = "exp";
-  static init(params?: Params) {
+  name: T.Name = "Exp";
+  static init(params?: T.Params) {
     const p: ExpParams = { rate: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -170,13 +142,13 @@ class Exp extends Distribution<ExpParams> {
   }
 }
 
-type GammaParams = Params & {
+type GammaParams = T.Params & {
   shape: number;
   rate: number;
 };
 class Gamma extends Distribution<GammaParams> {
-  name: Name = "gamma";
-  static init(params?: Params) {
+  name: T.Name = "Gamma";
+  static init(params?: T.Params) {
     const p: GammaParams = { shape: 1, rate: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -194,8 +166,8 @@ class Gamma extends Distribution<GammaParams> {
 }
 
 class InverseGamma extends Distribution<GammaParams> {
-  name: Name = "inverse_gamma";
-  static init(params?: Params) {
+  name: T.Name = "InverseGamma";
+  static init(params?: T.Params) {
     const p: GammaParams = { shape: 1, rate: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -213,8 +185,8 @@ class InverseGamma extends Distribution<GammaParams> {
 }
 
 class LogNormal extends Distribution<NormalParams> {
-  name: Name = "log_normal";
-  static init(params?: Params) {
+  name: T.Name = "LogNormal";
+  static init(params?: T.Params) {
     const p: NormalParams = { location: 0, scale: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -231,13 +203,13 @@ class LogNormal extends Distribution<NormalParams> {
   }
 }
 
-type NormalParams = Params & {
+type NormalParams = T.Params & {
   location: number;
   scale: number;
 };
 class Normal extends Distribution<NormalParams> {
-  name: Name = "normal";
-  static init(params?: Params) {
+  name: T.Name = "Normal";
+  static init(params?: T.Params) {
     const p: NormalParams = { location: 0, scale: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -254,12 +226,12 @@ class Normal extends Distribution<NormalParams> {
   }
 }
 
-type StudentsTParams = Params & {
+type StudentsTParams = T.Params & {
   freedom: number;
 };
 class StudentsT extends Distribution<StudentsTParams> {
-  name: Name = "students_t";
-  static init(params?: Params) {
+  name: T.Name = "StudentsT";
+  static init(params?: T.Params) {
     const p: StudentsTParams = { freedom: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -276,13 +248,13 @@ class StudentsT extends Distribution<StudentsTParams> {
   }
 }
 
-type UniformParams = Params & {
+type UniformParams = T.Params & {
   min: number;
   max: number;
 };
 class Uniform extends Distribution<UniformParams> {
-  name: Name = "uniform";
-  static init(params?: Params) {
+  name: T.Name = "Uniform";
+  static init(params?: T.Params) {
     const p: UniformParams = { min: 0, max: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -323,13 +295,13 @@ class Uniform extends Distribution<UniformParams> {
   }
 }
 
-type WeibullParams = Params & {
+type WeibullParams = T.Params & {
   shape: number;
   scale: number;
 };
 class Weibull extends Distribution<WeibullParams> {
-  name: Name = "students_t";
-  static init(params?: Params) {
+  name: T.Name = "Weibull";
+  static init(params?: T.Params) {
     const p: WeibullParams = { shape: 1, scale: 1 };
     if (params) {
       for (const [k, v] of Object.entries(params)) {
@@ -346,51 +318,32 @@ class Weibull extends Distribution<WeibullParams> {
   }
 }
 
-export function init(name: Name, params?: Params): Distribution {
+export function init(name: T.Name, params?: T.Params): Distribution {
   switch (name) {
-    case "unspecified":
+    case "Unspecified":
       return Unspecified.init(params);
 
-    case "beta":
+    case "Beta":
       return Beta.init(params);
-    case "cauchy":
+    case "Cauchy":
       return Cauchy.init(params);
-    case "chi_squared":
+    case "ChiSquared":
       return ChiSquared.init(params);
-    case "exp":
+    case "Exp":
       return Exp.init(params);
-    case "gamma":
+    case "Gamma":
       return Gamma.init(params);
-    case "inverse_gamma":
+    case "InverseGamma":
       return InverseGamma.init(params);
-    case "log_normal":
+    case "LogNormal":
       return LogNormal.init(params);
-    case "normal":
+    case "Normal":
       return Normal.init(params);
-    case "students_t":
+    case "StudentsT":
       return StudentsT.init(params);
-    case "weibull":
+    case "Weibull":
       return Weibull.init(params);
-    case "uniform":
+    case "Uniform":
       return Uniform.init(params);
   }
-}
-
-type ToBeShared = {
-  params: Params;
-  name: Name;
-};
-export function toBase64(dists: Distribution[]): string {
-  const arr: ToBeShared[] = dists.map((d) => {
-    return { params: d.params, name: d.name };
-  });
-  const json = JSON.stringify(arr);
-  const b64 = Base64.encodeURL(json);
-  return b64;
-}
-
-export function fromBase64(b64: string): Distribution[] {
-  const json = Base64.decode(b64);
-  const arr: ToBeShared[] = JSON.parse(json);
-  return arr.map((elm) => init(elm.name, elm.params));
 }
