@@ -11,7 +11,7 @@ import * as R from "../src/recoil";
 import * as U from "../src/utils";
 
 export default function Home() {
-  const [dInputs, setDInputs] = useRecoilState(R.dInputs);
+  const [dInputs, setDInputs] = useRecoilState(R.distributions);
   const router = useRouter();
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function Home() {
             <button
               className="button is-dark is-fullwidth"
               onClick={() => {
-                setDInputs((d) => [...d, { name: "unspecified", params: {} }]);
+                setDInputs((d) => [...d, { name: "Unspecified", params: {} }]);
               }}
             >
               add distribution

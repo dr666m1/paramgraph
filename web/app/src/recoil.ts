@@ -1,6 +1,7 @@
 import { atom, selector } from "recoil";
 
 import * as D from "./distribution";
+import * as T from "./types";
 import * as U from "./utils";
 
 export const range = atom<[string, string]>({
@@ -8,18 +9,17 @@ export const range = atom<[string, string]>({
   default: ["-3", "3"],
 });
 
-export const dInputs = atom<U.Optional<D.DInput>[]>({
-  key: "dInputs",
-  default: [{ name: "unspecified", params: {} }],
+export const distributions = atom<T.Input["dists"]>({
+  key: "distributions",
+  default: [{ name: "Unspecified", params: {} }],
 });
 
-export const datasets = selector<D.Dataset[]>({
+export const datasets = selector<T.Dataset[]>({
   key: "datasets",
   get: ({ get }) => {
-    const dis = get(dInputs);
-    const ds = dis.filter(U.isDefined).map(D.dInput2Dist);
+    const ds = get(distributions).filter(U.isDefined).map(D.dInput2Dist);
     const r = get(range);
-    let temp: U.Optional<D.Dataset>[] = ds.map((d, i) => {
+    let temp: U.Optional<T.Dataset>[] = ds.map((d, i) => {
       if (!U.isDefined(d)) {
         return undefined;
       }

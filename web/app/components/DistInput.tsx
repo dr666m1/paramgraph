@@ -10,12 +10,11 @@ export default function Component({
   idx: number;
   paramName: string;
 }) {
-  const [dInputs, setDInputs] = useRecoilState(R.dInputs);
+  const [distributions, setDistributions] = useRecoilState(R.distributions);
 
   const update = (e: React.ChangeEvent<HTMLInputElement>) => {
     const str = e.target.value;
-    console.log(dInputs);
-    setDInputs((arr) => {
+    setDistributions((arr) => {
       const temp = [...arr];
       const params = { ...arr[idx]!.params };
       params[paramName] = str;
@@ -29,9 +28,9 @@ export default function Component({
       className="input is-small"
       type="text"
       placeholder={String(
-        D.init(dInputs[idx]!.name).toInput().params[paramName]
+        D.init(distributions[idx]!.name).toInput().params[paramName]
       )}
-      value={dInputs[idx]!.params[paramName]}
+      value={distributions[idx]!.params[paramName]}
       onChange={update}
     />
   );
