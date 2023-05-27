@@ -26,7 +26,7 @@ export default function Component({
 
   return (
     <input
-      className={`input is-small`}
+      className="input is-small"
       type="text"
       placeholder={String(
         D.init(dInputs[idx]!.name).toInput().params[paramName]

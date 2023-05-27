@@ -3,7 +3,10 @@ import { atom, selector } from "recoil";
 import * as D from "./distribution";
 import * as U from "./utils";
 
-export const range = atom<[number, number]>({ key: "range", default: [-3, 3] });
+export const range = atom<[string, string]>({
+  key: "range",
+  default: ["-3", "3"],
+});
 
 export const dInputs = atom<U.Optional<D.DInput>[]>({
   key: "dInputs",
@@ -21,7 +24,7 @@ export const datasets = selector<D.Dataset[]>({
         return undefined;
       }
       try {
-        return d.toDataset(r[0], r[1], i);
+        return d.toDataset(Number(r[0]), Number(r[1]), i);
       } catch {
         return { label: "error", showLine: true, data: [], idx: i };
       }
