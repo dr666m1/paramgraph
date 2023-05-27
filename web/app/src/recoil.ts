@@ -19,7 +19,9 @@ export const distributions = atom<T.Input["dists"]>({
 export const datasets = selector<T.Dataset[]>({
   key: "datasets",
   get: ({ get }) => {
-    const ds = get(distributions).filter(U.isDefined).map(D.dInput2Dist);
+    const ds = get(distributions)
+      .filter(U.isDefined)
+      .map((d) => D.init(d.name, U.asDictOfNumber(d.params)));
     const r = get(range);
     let temp: T.Optional<T.Dataset>[] = ds.map((d, i) => {
       if (!U.isDefined(d)) {

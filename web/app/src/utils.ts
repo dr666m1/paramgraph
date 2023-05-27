@@ -33,3 +33,23 @@ export function fromBase64(b64: string): any {
   const json = Base64.decode(b64);
   return JSON.parse(json);
 }
+
+export function asDictOfStr(dict: { [key: string]: any }): {
+  [key: string]: string;
+} {
+  const res: { [key: string]: string } = {};
+  for (const [k, v] of Object.entries(dict)) {
+    res[k] = String(v);
+  }
+  return res;
+}
+
+export function asDictOfNumber(dict: { [key: string]: any }): {
+  [key: string]: number;
+} {
+  const res: { [key: string]: number } = {};
+  for (const [k, v] of Object.entries(dict)) {
+    res[k] = Number(v);
+  }
+  return res;
+}

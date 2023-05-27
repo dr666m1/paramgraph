@@ -37,14 +37,6 @@ abstract class Distribution<P extends T.Params = T.Params> {
       idx,
     };
   }
-  toInput(): T.InputDist {
-    const n = this.name;
-    const p: { [key: string]: string } = {};
-    for (const [k, v] of Object.entries(this.params)) {
-      p[k] = String(v);
-    }
-    return { name: n, params: p };
-  }
 }
 
 class Unspecified extends Distribution {
@@ -354,13 +346,4 @@ export function init(name: T.Name, params?: T.Params): Distribution {
     case "Uniform":
       return Uniform.init(params);
   }
-}
-
-export function dInput2Dist(di: T.InputDist): Distribution {
-  const n = di.name;
-  const p: T.Params = {};
-  for (const [k, v] of Object.entries(di.params)) {
-    p[k] = Number(v);
-  }
-  return init(n, p);
 }

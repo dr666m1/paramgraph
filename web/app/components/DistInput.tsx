@@ -2,6 +2,7 @@ import { useRecoilState } from "recoil";
 
 import * as D from "../src/distribution";
 import * as R from "../src/recoil";
+import * as U from "../src/utils";
 
 export default function Component({
   idx,
@@ -15,10 +16,11 @@ export default function Component({
   const update = (e: React.ChangeEvent<HTMLInputElement>) => {
     const str = e.target.value;
     setDistributions((arr) => {
+      const d = arr[idx]!;
       const temp = [...arr];
-      const params = { ...arr[idx]!.params };
+      const params = { ...d.params };
       params[paramName] = str;
-      temp[idx] = { name: arr[idx]!.name, params };
+      temp[idx] = { name: d.name, params };
       return temp;
     });
   };
@@ -27,11 +29,11 @@ export default function Component({
     <input
       className="input is-small"
       type="text"
-      placeholder={String(
-        D.init(distributions[idx]!.name).toInput().params[paramName]
-      )}
       value={distributions[idx]!.params[paramName]}
       onChange={update}
+      placeholder={
+        U.asDictOfStr(D.init(distributions[idx]!.name).params)[paramName]
+      }
     />
   );
 }
