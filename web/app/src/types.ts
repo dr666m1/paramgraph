@@ -1,5 +1,3 @@
-import * as U from "./utils";
-
 export const names = [
   "Unspecified",
   "Beta",
@@ -19,7 +17,7 @@ export type Name = (typeof names)[number];
 
 export type Input = {
   range: [string, string];
-  dists: U.Optional<InputDist>[];
+  dists: Optional<InputDist>[];
 };
 
 export type InputDist = {
@@ -40,3 +38,5 @@ export type Point = {
 };
 
 export type Params = { [key: string]: number };
+
+export type Optional<T> = T | undefined;

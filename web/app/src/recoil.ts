@@ -9,9 +9,11 @@ export const range = atom<[string, string]>({
   default: ["-3", "3"],
 });
 
+export const defaultDist: T.InputDist = { name: "Unspecified", params: {} };
+
 export const distributions = atom<T.Input["dists"]>({
   key: "distributions",
-  default: [{ name: "Unspecified", params: {} }],
+  default: [defaultDist],
 });
 
 export const datasets = selector<T.Dataset[]>({
@@ -19,7 +21,7 @@ export const datasets = selector<T.Dataset[]>({
   get: ({ get }) => {
     const ds = get(distributions).filter(U.isDefined).map(D.dInput2Dist);
     const r = get(range);
-    let temp: U.Optional<T.Dataset>[] = ds.map((d, i) => {
+    let temp: T.Optional<T.Dataset>[] = ds.map((d, i) => {
       if (!U.isDefined(d)) {
         return undefined;
       }

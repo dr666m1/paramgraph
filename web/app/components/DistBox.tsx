@@ -21,7 +21,7 @@ export default function Component({ idx }: { idx: number }) {
         <button className="delete is-small dist-delete" onClick={del}></button>
       </div>
       <label className="label">distribution</label>
-      {/* dInputs[idx] always exists (guaranteed in index.tsx) */}
+      {/* distributions[idx] always exists (guaranteed in index.tsx) */}
       <DistDropdown idx={idx} />
       {Object.keys(distributions[idx]!.params).map((k) => (
         <div key={k}>

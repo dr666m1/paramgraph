@@ -1,4 +1,3 @@
-import { Base64 } from "js-base64";
 import {
   beta,
   cauchy,
@@ -15,7 +14,7 @@ import * as T from "./types";
 
 const LEN = 300;
 
-export abstract class Distribution<P extends T.Params = T.Params> {
+abstract class Distribution<P extends T.Params = T.Params> {
   params: P;
   constructor(params: P) {
     this.params = params;
@@ -355,17 +354,6 @@ export function init(name: T.Name, params?: T.Params): Distribution {
     case "Uniform":
       return Uniform.init(params);
   }
-}
-
-export function toBase64(dists: T.Input["dists"]): string {
-  const json = JSON.stringify(dists);
-  const b64 = Base64.encodeURL(json);
-  return b64;
-}
-
-export function fromBase64(b64: string): T.Input["dists"] {
-  const json = Base64.decode(b64);
-  return JSON.parse(json);
 }
 
 export function dInput2Dist(di: T.InputDist): Distribution {
