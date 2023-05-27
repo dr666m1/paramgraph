@@ -7,8 +7,8 @@ export function isDefined<T>(obj: T | undefined): obj is T {
   return true;
 }
 
-export function asNumber(s: string): number {
-  if (s.match(/^\s*$/)) {
+export function asNumber(s: unknown): number {
+  if (typeof s === "string" && s.match(/^\s*$/)) {
     throw new Error("empty string");
   }
   let num: number;
@@ -23,7 +23,7 @@ export function asNumber(s: string): number {
   return num;
 }
 
-export function toBase64(obj: any): string {
+export function toBase64(obj: unknown): string {
   const json = JSON.stringify(obj);
   const b64 = Base64.encodeURL(json);
   return b64;
@@ -34,7 +34,7 @@ export function fromBase64(b64: string): any {
   return JSON.parse(json);
 }
 
-export function asDictOfStr(dict: { [key: string]: any }): {
+export function asDictOfStr(dict: { [key: string]: unknown }): {
   [key: string]: string;
 } {
   const res: { [key: string]: string } = {};
@@ -44,12 +44,12 @@ export function asDictOfStr(dict: { [key: string]: any }): {
   return res;
 }
 
-export function asDictOfNumber(dict: { [key: string]: any }): {
+export function asDictOfNumber(dict: { [key: string]: unknown }): {
   [key: string]: number;
 } {
   const res: { [key: string]: number } = {};
   for (const [k, v] of Object.entries(dict)) {
-    res[k] = Number(v);
+    res[k] = asNumber(v);
   }
   return res;
 }

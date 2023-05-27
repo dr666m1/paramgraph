@@ -22,16 +22,15 @@ export const distributions = atom<T.Input["dists"]>({
 export const datasets = selector<T.Dataset[]>({
   key: "datasets",
   get: ({ get }) => {
-    const ds = get(distributions)
-      .filter(U.isDefined)
-      .map((d) => D.init(d.name, U.asDictOfNumber(d.params)));
     const r = get(range);
+    const ds = get(distributions).filter(U.isDefined);
     let temp: T.Optional<T.Dataset>[] = ds.map((d, i) => {
-      if (!U.isDefined(d)) {
-        return undefined;
-      }
       try {
-        return d.toDataset(Number(r[0]), Number(r[1]), i);
+        return D.init(d.name, U.asDictOfNumber(d.params)).toDataset(
+          U.asNumber(r[0]),
+          U.asNumber(r[1]),
+          i
+        );
       } catch {
         return { label: "error", showLine: true, data: [], idx: i };
       }
