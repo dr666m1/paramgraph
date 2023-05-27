@@ -16,6 +16,9 @@ export const distributions = atom<T.Input["dists"]>({
   default: [defaultDist],
 });
 
+// NOTE
+// may be useful when you want to remember previous value
+// https://github.com/facebookexperimental/Recoil/issues/290
 export const datasets = selector<T.Dataset[]>({
   key: "datasets",
   get: ({ get }) => {
