@@ -13,9 +13,15 @@ import {
 } from "stats";
 
 const LEN = 300;
+
 type Point = {
   x: number;
   y: number;
+};
+
+export type DInput = {
+  name: Name;
+  params: { [key: string]: string };
 };
 
 export const names = [
@@ -64,6 +70,14 @@ export abstract class Distribution<P extends Params = Params> {
       data: this.calc(from, to).filter((p) => 0 < p.y),
       idx,
     };
+  }
+  toInput(): DInput {
+    const n = this.name;
+    const p: { [key: string]: string } = {};
+    for (const [k, v] of Object.entries(this.params)) {
+      p[k] = String(v);
+    }
+    return { name: n, params: p };
   }
 }
 
@@ -376,21 +390,23 @@ export function init(name: Name, params?: Params): Distribution {
   }
 }
 
-type ToBeShared = {
-  params: Params;
-  name: Name;
-};
-export function toBase64(dists: Distribution[]): string {
-  const arr: ToBeShared[] = dists.map((d) => {
-    return { params: d.params, name: d.name };
-  });
-  const json = JSON.stringify(arr);
+export function toBase64(dists: DInput[]): string {
+  const json = JSON.stringify(dists);
   const b64 = Base64.encodeURL(json);
   return b64;
 }
 
-export function fromBase64(b64: string): Distribution[] {
+export function fromBase64(b64: string): DInput[] {
   const json = Base64.decode(b64);
-  const arr: ToBeShared[] = JSON.parse(json);
-  return arr.map((elm) => init(elm.name, elm.params));
+  const arr: DInput[] = JSON.parse(json);
+  return arr;
+}
+
+export function dInput2Dist(di: DInput): Distribution {
+  const n = di.name;
+  const p: Params = {};
+  for (const [k, v] of Object.entries(di.params)) {
+    p[k] = Number(v);
+  }
+  return init(n, p);
 }

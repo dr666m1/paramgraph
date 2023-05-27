@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { useRecoilState } from "recoil";
 
 import * as D from "../src/distribution";
 import * as R from "../src/recoil";
-import * as U from "../src/utils";
 
 export default function Component({
   idx,
@@ -12,38 +10,28 @@ export default function Component({
   idx: number;
   paramName: string;
 }) {
-  const [distributions, setDistributions] = useRecoilState(R.dists);
-  const [text, setText] = useState<string>(
-    String(distributions[idx]!.params[paramName])
-  );
-  const [errFlg, setErrFlg] = useState<boolean>(false);
+  const [dInputs, setDInputs] = useRecoilState(R.dInputs);
 
   const update = (e: React.ChangeEvent<HTMLInputElement>) => {
     const str = e.target.value;
-    setText(str);
-    let num;
-    try {
-      num = U.asNumber(str);
-    } catch {
-      setErrFlg(true);
-      return;
-    }
-    setErrFlg(false);
-    const newDist = distributions[idx]!.clone();
-    newDist.params[paramName] = num;
-    setDistributions((arr) => {
+    console.log(dInputs);
+    setDInputs((arr) => {
       const temp = [...arr];
-      temp[idx] = newDist;
+      const params = { ...arr[idx]!.params };
+      params[paramName] = str;
+      temp[idx] = { name: arr[idx]!.name, params };
       return temp;
     });
   };
 
   return (
     <input
-      className={`input is-small ${errFlg ? "is-danger" : ""}`}
+      className={`input is-small`}
       type="text"
-      placeholder={String(D.init(distributions[idx]!.name).params[paramName])}
-      value={text}
+      placeholder={String(
+        D.init(dInputs[idx]!.name).toInput().params[paramName]
+      )}
+      value={dInputs[idx]!.params[paramName]}
       onChange={update}
     />
   );

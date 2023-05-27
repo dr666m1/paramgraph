@@ -11,7 +11,7 @@ import * as R from "../src/recoil";
 import * as U from "../src/utils";
 
 export default function Home() {
-  const [distributions, setDistributions] = useRecoilState(R.dists);
+  const [dInputs, setDInputs] = useRecoilState(R.dInputs);
   const router = useRouter();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Home() {
     }
     try {
       const dists = D.fromBase64(id);
-      setDistributions(dists);
+      setDInputs(dists);
       router.replace({ query: {} });
     } catch (e) {
       alert("invalid query string");
@@ -56,7 +56,7 @@ export default function Home() {
         style={{ overflow: "auto" }}
       >
         {/* using idx as key is not recommended but I preferred simplicity */}
-        {distributions.map((d, idx) => {
+        {dInputs.map((d, idx) => {
           if (U.isDefined(d)) {
             return <DistBox key={idx} idx={idx} />;
           }
@@ -66,8 +66,7 @@ export default function Home() {
             <button
               className="button is-dark is-fullwidth"
               onClick={() => {
-                const default_ = D.init("unspecified");
-                setDistributions((d) => [...d, default_]);
+                setDInputs((d) => [...d, { name: "unspecified", params: {} }]);
               }}
             >
               add distribution
@@ -78,11 +77,11 @@ export default function Home() {
               id="share"
               className="button"
               onClick={async () => {
-                const ds = distributions.filter(U.isDefined);
+                const ds = dInputs.filter(U.isDefined);
                 const b64 = D.toBase64(ds);
                 const url = `${document.URL}?id=${b64}`;
                 await navigator.clipboard.writeText(url);
-                alert("copied!");
+                alert("copied into clipboard!");
               }}
             >
               share

@@ -5,15 +5,16 @@ import * as U from "./utils";
 
 export const range = atom<[number, number]>({ key: "range", default: [-3, 3] });
 
-export const dists = atom<U.Optional<D.Distribution>[]>({
-  key: "dists",
-  default: [D.init("unspecified")],
+export const dInputs = atom<U.Optional<D.DInput>[]>({
+  key: "dInputs",
+  default: [{ name: "unspecified", params: {} }],
 });
 
 export const datasets = selector<D.Dataset[]>({
   key: "datasets",
   get: ({ get }) => {
-    const ds = get(dists);
+    const dis = get(dInputs);
+    const ds = dis.filter(U.isDefined).map(D.dInput2Dist);
     const r = get(range);
     let temp: U.Optional<D.Dataset>[] = ds.map((d, i) => {
       if (!U.isDefined(d)) {
