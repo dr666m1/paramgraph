@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "next dev",
     "build": "zx ./scripts/license.mjs",
-    "fmt": "prettier --ignore-path ../../.prettierignore --write ."
+    "fmt": "prettier --ignore-path ../../.prettierignore --write .",
+    "test": "jest"
   },
   "dependencies": {
     "bulma": "^0.9.4",

@@ -43,6 +43,7 @@ const nextConfig = {
     wasmConfig(config, { isServer, dev });
     return config;
   },
+  transpilePackages: ["react-github-btn"],
 };
 
 module.exports = nextConfig;
