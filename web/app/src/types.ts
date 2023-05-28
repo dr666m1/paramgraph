@@ -17,12 +17,10 @@ export type Name = (typeof names)[number];
 
 export type Input = {
   range: [string, string];
-  dists: Optional<InputDist>[];
-};
-
-export type InputDist = {
-  name: Name;
-  params: { [key: string]: string };
+  dists: Optional<{
+    name: Name;
+    params: { [key: string]: string };
+  }>[];
 };
 
 export type Dataset = {

@@ -4,12 +4,15 @@ import * as D from "./distribution";
 import * as T from "./types";
 import * as U from "./utils";
 
-export const range = atom<[string, string]>({
+export const range = atom<T.Input["range"]>({
   key: "range",
   default: ["-3", "3"],
 });
 
-export const defaultDist: T.InputDist = { name: "Unspecified", params: {} };
+export const defaultDist: T.Input["dists"][number] = {
+  name: "Unspecified",
+  params: {},
+};
 
 export const distributions = atom<T.Input["dists"]>({
   key: "distributions",
