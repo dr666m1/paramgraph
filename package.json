@@ -37,7 +37,6 @@
   },
   "workspaces": [
     "deployments",
-    "web/stats/pkg",
     "web/app"
   ],
   "dependencies": {
