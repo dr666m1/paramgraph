@@ -9,7 +9,7 @@
     "serve": "npm run serve -w web/app # if you see some errors, see https://github.com/vercel/next.js/issues/47121",
     "deploy": "npm run deploy -w deployments",
     "fmt": "prettier --write .",
-    "test": "prettier --check ."
+    "test": "prettier --check . && npm test -w deployments"
   },
   "repository": {
     "type": "git",
